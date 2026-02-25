@@ -9,13 +9,11 @@
         :root { --waskita-blue: #003060; --waskita-gold: #f1c40f; --danger: #e74c3c; }
         body, html { margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; scroll-behavior: smooth; color: #333; background-color: #f4f7f6; }
         
-        /* Navigation */
         nav { position: fixed; top: 0; width: 100%; padding: 15px 0; display: flex; justify-content: space-around; background: rgba(0, 48, 96, 0.95); z-index: 1000; align-items: center; }
         nav a { color: white; text-decoration: none; font-weight: bold; margin: 0 15px; font-size: 14px; transition: 0.3s; }
         nav a:hover { color: var(--waskita-gold); }
         .nav-btn { background: var(--danger); padding: 8px 15px; border-radius: 5px; }
 
-        /* Hero Section */
         .hero {
             background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('Background.PNG');
             height: 100vh; background-size: cover; background-position: center; background-attachment: fixed;
@@ -25,18 +23,15 @@
         .hero h1 { font-size: 3rem; margin-bottom: 10px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
         .hero p { font-size: 1.2rem; max-width: 800px; }
 
-        /* Sections */
         .section { padding: 100px 10% 60px; }
         .card { background: white; padding: 35px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); margin-bottom: 40px; }
         h2 { color: var(--waskita-blue); border-left: 5px solid var(--waskita-gold); padding-left: 15px; margin-bottom: 30px; }
 
-        /* Info Table */
         .info-table { width: 100%; border-collapse: collapse; }
         .info-table tr:nth-child(even) { background: #f9f9f9; }
         .info-table td { padding: 12px 15px; border: 1px solid #eee; font-size: 14px; }
         .info-table td:first-child { font-weight: bold; color: var(--waskita-blue); width: 30%; }
 
-        /* Data Table */
         table.data-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         .data-table th { background: var(--waskita-blue); color: white; padding: 12px; font-size: 13px; }
         .data-table td { border: 1px solid #ddd; padding: 10px; text-align: center; font-size: 13px; }
@@ -97,9 +92,8 @@
                             <th>Periode</th>
                             <th>Aktual (%)</th>
                             <th>Rencana (%)</th>
-                            <th>Link Video</th>
+                            <th>Dokumentasi Video</th>
                             <th>Link Orthophoto</th>
-                            <th>Issue Utama</th>
                         </tr>
                     </thead>
                     <tbody id="table-body"></tbody>
@@ -116,40 +110,22 @@
         <div class="card">
             <h2>Lokasi Proyek</h2>
             <p>Koordinat Proyek: -7.72647890, 113.63515320</p>
-            <a href="https://www.google.com/maps?q=-7.72647890,113.63515320" target="_blank" class="page-btn" style="background:#27ae60; text-decoration:none;">Buka Google Maps</a>
+            <a href="https://maps.google.com/?q=-7.72647890,113.63515320" target="_blank" class="page-btn" style="background:#27ae60; text-decoration:none;">Buka Google Maps</a>
         </div>
     </div>
 
     <script>
         const allData = [
-            { tgl: "2025-01-31", akt: 62.789, ren: 64.138, vid: "[Video Dokumentasi](https://youtu.be/UjgrYPep6GQ)", ortho: "[Orthophoto](https://ptwaskita-my.sharepoint.com/:f:/r/personal/fahmi_waskita_co_id/Documents/BIM%20-%20INFRA%202/Project/WKINF2%20-%201323020%20Jalan%20Tol%20Probowangi/1.%20WIP/GIS/13.%20Update%20Orthophoto?csf=1&web=1&e=hUflvD)"},
-            { tgl: "2025-02-28", akt: 65.437, ren: 68.443, vid: "[Video Dokumentasi](https://youtu.be/iQzbvK9XGlg)", ortho: "[Orthophoto](https://ptwaskita-my.sharepoint.com/:f:/r/personal/fahmi_waskita_co_id/Documents/BIM%20-%20INFRA%202/Project/WKINF2%20-%201323020%20Jalan%20Tol%20Probowangi/1.%20WIP/GIS/13.%20Update%20Orthophoto?csf=1&web=1&e=hUflvD)"},
-            { tgl: "2025-05-31", akt: 73.252, ren: 98.324, vid: "[Video Dokumentasi](https://youtu.be/VUaEwmB2Y0Y)", ortho: "Orthophoto](https://ptwaskita-my.sharepoint.com/personal/fahmi_waskita_co_id/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Ffahmi%5Fwaskita%5Fco%5Fid%2FDocuments%2FBIM%20%2D%20INFRA%202%2FProject%2FWKINF2%20%2D%201323020%20Jalan%20Tol%20Probowangi%2F1%2E%20WIP%2FGIS%2F13%2E%20Update%20Orthophoto&csf=1&web=1&e=hUflvD&CID=a6ebeb1f%2Dbce7%2D4e68%2Db3a9%2Dba77ef03f7ee&FolderCTID=0x0120008AE2C3201DBDD44A93E08450C0DB2828&view=0)"},
-            { tgl: "2025-06-29", akt: 75.349, ren: 76.875, vid: "[[Video Dokumentasi](https://youtu.be/NGjyKZUuddQ)", ortho: "[Orthophoto](https://ptwaskita-my.sharepoint.com/personal/fahmi_waskita_co_id/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Ffahmi%5Fwaskita%5Fco%5Fid%2FDocuments%2FBIM%20%2D%20INFRA%202%2FProject%2FWKINF2%20%2D%201323020%20Jalan%20Tol%20Probowangi%2F1%2E%20WIP%2FGIS%2F13%2E%20Update%20Orthophoto&csf=1&web=1&e=hUflvD&CID=a6ebeb1f%2Dbce7%2D4e68%2Db3a9%2Dba77ef03f7ee&FolderCTID=0x0120008AE2C3201DBDD44A93E08450C0DB2828&view=0)"},
-            { tgl: "2025-07-30", akt: 77.363, ren: 80.608, vid: "[Video Dokumentasi](https://youtu.be/k_8xtlQsFlw)", ortho: "[[Orthophoto](https://ptwaskita-my.sharepoint.com/personal/fahmi_waskita_co_id/_layouts/15/onedrive.aspx?csf=1&web=1&e=hUflvD&CID=3a5f9cf3%2D0b69%2D46b4%2D962e%2D74d852bb0306&id=%2Fpersonal%2Ffahmi%5Fwaskita%5Fco%5Fid%2FDocuments%2FBIM%20%2D%20INFRA%202%2FProject%2FWKINF2%20%2D%201323020%20Jalan%20Tol%20Probowangi%2F1%2E%20WIP%2FGIS%2F13%2E%20Update%20Orthophoto&FolderCTID=0x0120008AE2C3201DBDD44A93E08450C0DB2828&view=0)"},
-            { tgl: "2025-08-31", akt: 79.588, ren: 84.178, vid: "[Video Dokumentasi](https://youtu.be/Iv64ufqADqw)", ortho: "[Orthophoto](https://ptwaskita-my.sharepoint.com/:f:/r/personal/fahmi_waskita_co_id/Documents/BIM%20-%20INFRA%202/Project/WKINF2%20-%201323020%20Jalan%20Tol%20Probowangi/1.%20WIP/GIS/13.%20Update%20Orthophoto?csf=1&web=1&e=hUflvD)"},
-            { tgl: "2025-09-28", akt: 82.751, ren: 88.244, vid: "[Video Dokumentasi](https://youtu.be/CDN7ItbGyZ4)", ortho: "[Orthophoto](https://ptwaskita-my.sharepoint.com/:f:/r/personal/fahmi_waskita_co_id/Documents/BIM%20-%20INFRA%202/Project/WKINF2%20-%201323020%20Jalan%20Tol%20Probowangi/1.%20WIP/GIS/13.%20Update%20Orthophoto?csf=1&web=1&e=hUflvD)"},
-            { tgl: "2025-10-31", akt: 86.245, ren: 94.047, vid: "[Video Dokumentasi](https://youtu.be/FqbM4jzdmx8)", ortho: "[Orthophoto](https://ptwaskita-my.sharepoint.com/:f:/r/personal/fahmi_waskita_co_id/Documents/BIM%20-%20INFRA%202/Project/WKINF2%20-%201323020%20Jalan%20Tol%20Probowangi/1.%20WIP/GIS/13.%20Update%20Orthophoto?csf=1&web=1&e=hUflvD)"},
-            { tgl: "2025-12-28", akt: 92.281, ren: 94.242, vid: "[Video Dokumentasi](https://youtu.be/RFdmWkQxzGw)", ortho: "[Orthophoto](https://ptwaskita-my.sharepoint.com/:f:/r/personal/fahmi_waskita_co_id/Documents/BIM%20-%20INFRA%202/Project/WKINF2%20-%201323020%20Jalan%20Tol%20Probowangi/1.%20WIP/GIS/13.%20Update%20Orthophoto?csf=1&web=1&e=hUflvD)"},
-            
+            { tgl: "2025-01-31", akt: 62.789, ren: 64.138, vid: "https://youtu.be/UjgrYPep6GQ", ortho: "https://ptwaskita-my.sharepoint.com/:f:/r/personal/fahmi_waskita_co_id/Documents/BIM%20-%20INFRA%202/Project/WKINF2%20-%201323020%20Jalan%20Tol%20Probowangi/1.%20WIP/GIS/13.%20Update%20Orthophoto?csf=1&web=1&e=hUflvD"},
+            { tgl: "2025-02-28", akt: 65.437, ren: 68.443, vid: "https://youtu.be/iQzbvK9XGlg", ortho: "https://ptwaskita-my.sharepoint.com/:f:/r/personal/fahmi_waskita_co_id/Documents/BIM%20-%20INFRA%202/Project/WKINF2%20-%201323020%20Jalan%20Tol%20Probowangi/1.%20WIP/GIS/13.%20Update%20Orthophoto?csf=1&web=1&e=hUflvD"},
+            { tgl: "2025-05-31", akt: 73.252, ren: 98.324, vid: "https://youtu.be/VUaEwmB2Y0Y", ortho: "https://ptwaskita-my.sharepoint.com/personal/fahmi_waskita_co_id/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Ffahmi%5Fwaskita%5Fco%5Fid%2FDocuments%2FBIM%20%2D%20INFRA%202%2FProject%2FWKINF2%20%2D%201323020%20Jalan%20Tol%20Probowangi%2F1%2E%20WIP%2FGIS%2F13%2E%20Update%20Orthophoto&csf=1&web=1&e=hUflvD&CID=a6ebeb1f%2Dbce7%2D4e68%2Db3a9%2Dba77ef03f7ee&FolderCTID=0x0120008AE2C3201DBDD44A93E08450C0DB2828&view=0"},
+            { tgl: "2025-06-29", akt: 75.349, ren: 76.875, vid: "https://youtu.be/NGjyKZUuddQ", ortho: "https://ptwaskita-my.sharepoint.com/personal/fahmi_waskita_co_id/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Ffahmi%5Fwaskita%5Fco%5Fid%2FDocuments%2FBIM%20%2D%20INFRA%202%2FProject%2FWKINF2%20%2D%201323020%20Jalan%20Tol%20Probowangi%2F1%2E%20WIP%2FGIS%2F13%2E%20Update%20Orthophoto&csf=1&web=1&e=hUflvD&CID=a6ebeb1f%2Dbce7%2D4e68%2Db3a9%2Dba77ef03f7ee&FolderCTID=0x0120008AE2C3201DBDD44A93E08450C0DB2828&view=0"},
+            { tgl: "2025-07-30", akt: 77.363, ren: 80.608, vid: "https://youtu.be/k_8xtlQsFlw", ortho: "https://ptwaskita-my.sharepoint.com/personal/fahmi_waskita_co_id/_layouts/15/onedrive.aspx?csf=1&web=1&e=hUflvD&CID=3a5f9cf3%2D0b69%2D46b4%2D962e%2D74d852bb0306&id=%2Fpersonal%2Ffahmi%5Fwaskita%5Fco%5Fid%2FDocuments%2FBIM%20%2D%20INFRA%202%2FProject%2FWKINF2%20%2D%201323020%20Jalan%20Tol%20Probowangi%2F1%2E%20WIP%2FGIS%2F13%2E%20Update%20Orthophoto&FolderCTID=0x0120008AE2C3201DBDD44A93E08450C0DB2828&view=0"},
+            { tgl: "2025-08-31", akt: 79.588, ren: 84.178, vid: "https://youtu.be/Iv64ufqADqw", ortho: "https://ptwaskita-my.sharepoint.com/:f:/r/personal/fahmi_waskita_co_id/Documents/BIM%20-%20INFRA%202/Project/WKINF2%20-%201323020%20Jalan%20Tol%20Probowangi/1.%20WIP/GIS/13.%20Update%20Orthophoto?csf=1&web=1&e=hUflvD"},
+            { tgl: "2025-09-28", akt: 82.751, ren: 88.244, vid: "https://youtu.be/CDN7ItbGyZ4", ortho: "https://ptwaskita-my.sharepoint.com/:f:/r/personal/fahmi_waskita_co_id/Documents/BIM%20-%20INFRA%202/Project/WKINF2%20-%201323020%20Jalan%20Tol%20Probowangi/1.%20WIP/GIS/13.%20Update%20Orthophoto?csf=1&web=1&e=hUflvD"},
+            { tgl: "2025-10-31", akt: 86.245, ren: 94.047, vid: "https://youtu.be/FqbM4jzdmx8", ortho: "https://ptwaskita-my.sharepoint.com/:f:/r/personal/fahmi_waskita_co_id/Documents/BIM%20-%20INFRA%202/Project/WKINF2%20-%201323020%20Jalan%20Tol%20Probowangi/1.%20WIP/GIS/13.%20Update%20Orthophoto?csf=1&web=1&e=hUflvD"},
+            { tgl: "2025-12-28", akt: 92.281, ren: 94.242, vid: "https://youtu.be/RFdmWkQxzGw", ortho: "https://ptwaskita-my.sharepoint.com/:f:/r/personal/fahmi_waskita_co_id/Documents/BIM%20-%20INFRA%202/Project/WKINF2%20-%201323020%20Jalan%20Tol%20Probowangi/1.%20WIP/GIS/13.%20Update%20Orthophoto?csf=1&web=1&e=hUflvD"}
         ];
-        function renderTable() {
-    const tbody = document.getElementById('table-body');
-    tbody.innerHTML = "";
-    let start = (currentPage - 1) * rowsPerPage;
-    let end = start + rowsPerPage;
-    let paginatedItems = allData.slice(start, end);
-
-    paginatedItems.forEach(item => {
-        tbody.innerHTML += `<tr>
-            <td>${item.tgl}</td>
-            <td>${item.akt}%</td>
-            <td>${item.ren}%</td>
-            <td><a href="${item.vidUrl}" target="_blank" style="color:#003060; font-weight:bold;">Video</a></td>
-            <td><a href="${item.orthoUrl}" target="_blank" style="color:#003060; font-weight:bold;">Orthophoto</a></td>
-            <td>${item.iss}</td>
-        </tr>`;
-    });
 
         let currentPage = 1;
         const rowsPerPage = 5;
@@ -166,16 +142,18 @@
                     <td>${item.tgl}</td>
                     <td>${item.akt}%</td>
                     <td>${item.ren}%</td>
-                    <td><a href="#">${item.vid}</a></td>
-                    <td><a href="#">${item.ortho}</a></td>
-                    <td>${item.iss}</td>
+                    <td><a href="${item.vid}" target="_blank" style="color:var(--waskita-blue); font-weight:bold;">Lihat Video</a></td>
+                    <td><a href="${item.ortho}" target="_blank" style="color:var(--waskita-blue); font-weight:bold;">Lihat Orthophoto</a></td>
                 </tr>`;
             });
             document.getElementById('prevBtn').disabled = currentPage === 1;
             document.getElementById('nextBtn').disabled = end >= allData.length;
         }
 
-        function changePage(direction) { currentPage += direction; renderTable(); }
+        function changePage(direction) {
+            currentPage += direction;
+            renderTable();
+        }
 
         const ctx = document.getElementById('progresChart').getContext('2d');
         new Chart(ctx, {
