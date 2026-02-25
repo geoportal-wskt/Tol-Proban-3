@@ -3,63 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proyek Tol Probolinggo-Banyuwangi Seksi 3</title>
+    <title>Proyek Tol Probolinggo-Banyuwangi Paket 3</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body, html { margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; scroll-behavior: smooth; color: #333; }
+        :root { --waskita-blue: #003060; --waskita-gold: #f1c40f; --danger: #e74c3c; }
+        body, html { margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; scroll-behavior: smooth; color: #333; background-color: #f4f7f6; }
         
         /* Navigation */
-        nav { position: fixed; top: 0; width: 100%; padding: 15px 0; display: flex; justify-content: space-around; background: rgba(0, 48, 96, 0.9); z-index: 1000; }
-        nav a { color: white; text-decoration: none; font-weight: bold; margin: 0 15px; font-size: 14px; }
-        nav .brand { color: #f1c40f; font-weight: 900; }
+        nav { position: fixed; top: 0; width: 100%; padding: 15px 0; display: flex; justify-content: space-around; background: rgba(0, 48, 96, 0.95); z-index: 1000; align-items: center; }
+        nav a { color: white; text-decoration: none; font-weight: bold; margin: 0 15px; font-size: 14px; transition: 0.3s; }
+        nav a:hover { color: var(--waskita-gold); }
+        .nav-btn { background: var(--danger); padding: 8px 15px; border-radius: 5px; }
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
-                        url('https://images.unsplash.com/photo-1545143873-4e7862203b9b?q=80&w=2070&auto=format&fit=crop');
-            height: 100vh; background-size: cover; background-position: center;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('bg-proyek.jpg');
+            height: 100vh; background-size: cover; background-position: center; background-attachment: fixed;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             color: white; text-align: center; padding: 0 20px;
         }
-        .hero h1 { font-size: 3rem; margin-bottom: 10px; }
-        .btn { background-color: #e74c3c; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 20px; border: none; cursor: pointer; }
+        .hero h1 { font-size: 3rem; margin-bottom: 10px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
+        .hero p { font-size: 1.2rem; max-width: 800px; }
 
-        /* Content Sections */
-        .section { padding: 80px 10% 40px; text-align: center; }
-        .card { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 30px; }
+        /* Sections */
+        .section { padding: 100px 10% 60px; }
+        .card { background: white; padding: 35px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); margin-bottom: 40px; }
+        h2 { color: var(--waskita-blue); border-left: 5px solid var(--waskita-gold); padding-left: 15px; margin-bottom: 30px; }
 
-        /* Chart & Table */
-        canvas { max-width: 100%; margin: 20px auto; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px; }
-        th { background-color: #003060; color: white; padding: 12px; }
-        td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        /* Info Table */
+        .info-table { width: 100%; border-collapse: collapse; }
+        .info-table tr:nth-child(even) { background: #f9f9f9; }
+        .info-table td { padding: 12px 15px; border: 1px solid #eee; font-size: 14px; }
+        .info-table td:first-child { font-weight: bold; color: var(--waskita-blue); width: 30%; }
+
+        /* Data Table */
+        table.data-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .data-table th { background: var(--waskita-blue); color: white; padding: 12px; font-size: 13px; }
+        .data-table td { border: 1px solid #ddd; padding: 10px; text-align: center; font-size: 13px; }
+
         .pagination { margin-top: 20px; display: flex; justify-content: center; gap: 10px; }
-        .page-btn { padding: 8px 16px; cursor: pointer; background: #003060; color: white; border: none; border-radius: 4px; }
-        .page-btn:disabled { background: #ccc; cursor: not-allowed; }
+        .page-btn { padding: 10px 20px; cursor: pointer; background: var(--waskita-blue); color: white; border: none; border-radius: 5px; }
+        .page-btn:disabled { background: #ccc; }
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="brand">WASKITA INFRA II</div>
+        <div style="color:white; font-weight:900; letter-spacing:1px;">WASKITA INFRA II</div>
         <div>
-            <a href="#beranda">Beranda</a>
-            <a href="#tentang">Tentang Kami</a>
-            <a href="#progres">Progres</a>
-            <a href="#lokasi">Lihat Lokasi Proyek</a>
+            <a href="#beranda">BERANDA</a>
+            <a href="#tentang">TENTANG KAMI</a>
+            <a href="#progres">PROGRES & DOKUMENTASI</a>
+            <a href="#lokasi" class="nav-btn">LIHAT LOKASI PROYEK</a>
         </div>
     </nav>
 
     <div class="hero" id="beranda">
-        <h1>Proyek Jalan Tol Probolinggo-Banyuwangi Seksi 3</h1>
-        <p>Dashboard Monitoring Digital Survey & Progres Fisik</p>
-        <a href="#progres" class="btn">Lihat Data Progres</a>
+        <h1>Departemen Infrastruktur II</h1>
+        <p>Geoportal interaktif untuk memvisualisasikan dan memantau proyek-proyek strategis Divisi Infrastruktur II Waskita Karya.</p>
     </div>
 
     <div class="section" id="tentang">
         <div class="card">
             <h2>Tentang Kami</h2>
-            <p>Pembangunan Jalan Tol Probolinggo-Banyuwangi Paket 3 merupakan bagian dari Proyek Strategis Nasional yang dikerjakan oleh Divisi Infrastruktur II PT Waskita Karya (Persero) Tbk. Fokus utama kami adalah percepatan konstruksi dengan pemantauan digital survey yang akurat.</p>
+            <table class="info-table">
+                <tr><td>Nama Proyek</td><td>Jasa Konstruksi Pembangunan Jalan Tol Probolinggo – Banyuwangi Paket 3 STA 20+200 – 45+800</td></tr>
+                <tr><td>Lokasi Porsi WSKT</td><td>MR STA 32+000 – STA 36+300, MR STA 43+000 – 44+500 & Rest Area</td></tr>
+                <tr><td>Pengguna Jasa</td><td>PT. Jasamarga Probolinggo - Banyuwangi</td></tr>
+                <tr><td>Lokasi Proyek</td><td>Kab. Probolinggo dan Kab. Situbondo, Provinsi Jawa Timur</td></tr>
+                <tr><td>Jangka Waktu Pelaksanaan</td><td>549 Hari Kalender sejak SPMK ditandatangani</td></tr>
+                <tr><td>Masa Pemeliharaan</td><td>1095 Hari Kalender</td></tr>
+                <tr><td>Jenis Kontrak</td><td>Gabungan Lump Sum dan Harga Satuan</td></tr>
+                <tr><td>Cara Pembayaran</td><td>Sertifikat Bulanan</td></tr>
+                <tr><td>Nilai Kontrak Total</td><td>Rp. 1.106.471.907.532 (Include PPN 11%)</td></tr>
+                <tr><td>Uang Muka</td><td>Tidak diberlakukan</td></tr>
+                <tr><td>Jangka Waktu Pembayaran</td><td>Selambat-lambatnya 90 hari sejak Tagihan diterima & disetujui</td></tr>
+            </table>
         </div>
     </div>
 
@@ -70,20 +89,20 @@
         </div>
 
         <div class="card">
-            <h2>Tabel Detail Progres</h2>
+            <h2>Progres & Dokumentasi</h2>
             <div style="overflow-x:auto;">
-                <table id="data-table">
+                <table class="data-table">
                     <thead>
                         <tr>
                             <th>Periode</th>
                             <th>Aktual (%)</th>
                             <th>Rencana (%)</th>
-                            <th>Dokumentasi</th>
-                            <th>Issue</th>
+                            <th>Link Video</th>
+                            <th>Link Orthophoto</th>
+                            <th>Issue Utama</th>
                         </tr>
                     </thead>
-                    <tbody id="table-body">
-                        </tbody>
+                    <tbody id="table-body"></tbody>
                 </table>
             </div>
             <div class="pagination">
@@ -93,27 +112,22 @@
         </div>
     </div>
 
-    <div class="section" id="lokasi">
+    <div class="section" id="lokasi" style="text-align: center;">
         <div class="card">
-            <h2>Lihat Lokasi Proyek</h2>
+            <h2>Lokasi Proyek</h2>
             <p>Koordinat Proyek: -7.72647890, 113.63515320</p>
-            <a href="https://www.google.com/maps?q=-7.72647890,113.63515320" target="_blank" class="btn" style="background-color: #27ae60;">Buka Google Maps</a>
+            <a href="https://www.google.com/maps?q=-7.72647890,113.63515320" target="_blank" class="page-btn" style="background:#27ae60; text-decoration:none;">Buka Google Maps</a>
         </div>
     </div>
 
     <script>
-        // DATA DARI EXCEL ANDA
         const allData = [
-            { tgl: "2024-01-29", akt: 60.508, ren: 59.987, vid: "Video", iss: "REST AREA saat ini..." },
-            { tgl: "2024-01-31", akt: 62.789, ren: 64.138, vid: "Video", iss: "Item Pembayaran Rest Area..." },
-            { tgl: "2024-02-28", akt: 65.437, ren: 68.443, vid: "Video", iss: "Rest Area sudah dapat diakses..." },
-            { tgl: "2024-03-31", akt: 70.023, ren: 88.418, vid: "Video", iss: "Rest Area..." },
-            { tgl: "2024-04-30", akt: 73.252, ren: 98.324, vid: "Video", iss: "Rest Area..." },
-            { tgl: "2024-05-31", akt: 75.349, ren: 78.875, vid: "Video", iss: "Rest Area..." },
-            { tgl: "2024-06-30", akt: 77.383, ren: 80.608, vid: "Video", iss: "Rest Area..." },
-            { tgl: "2024-07-31", akt: 79.588, ren: 84.178, vid: "Video", iss: "REST AREA..." },
-            { tgl: "2024-08-31", akt: 82.751, ren: 88.244, vid: "Video", iss: "Rest Area..." },
-            { tgl: "2024-09-30", akt: 88.245, ren: 94.047, vid: "Video", iss: "REST AREA..." }
+            { tgl: "2024-01-29", akt: 60.508, ren: 59.987, vid: "Video", ortho: "Orthophoto", iss: "Rest Area sudah dapat diakses" },
+            { tgl: "2024-01-31", akt: 62.789, ren: 64.138, vid: "Video", ortho: "Orthophoto", iss: "Item Pembayaran Rest Area" },
+            { tgl: "2025-02-28", akt: 65.437, ren: 68.443, vid: "Video", ortho: "Orthophoto", iss: "Akses Rest Area fungsional" },
+            { tgl: "2024-03-31", akt: 70.023, ren: 88.418, vid: "Video", ortho: "Orthophoto", iss: "Lanjutan Rest Area" },
+            { tgl: "2024-04-30", akt: 73.252, ren: 98.324, vid: "Video", ortho: "Orthophoto", iss: "Monitoring Progres Fisik" },
+            { tgl: "2024-05-31", akt: 75.349, ren: 78.875, vid: "Video", ortho: "Orthophoto", iss: "Update Mei" }
         ];
 
         let currentPage = 1;
@@ -122,61 +136,37 @@
         function renderTable() {
             const tbody = document.getElementById('table-body');
             tbody.innerHTML = "";
-            
             let start = (currentPage - 1) * rowsPerPage;
             let end = start + rowsPerPage;
             let paginatedItems = allData.slice(start, end);
 
             paginatedItems.forEach(item => {
-                let row = `<tr>
+                tbody.innerHTML += `<tr>
                     <td>${item.tgl}</td>
                     <td>${item.akt}%</td>
                     <td>${item.ren}%</td>
                     <td><a href="#">${item.vid}</a></td>
+                    <td><a href="#">${item.ortho}</a></td>
                     <td>${item.iss}</td>
                 </tr>`;
-                tbody.innerHTML += row;
             });
-
             document.getElementById('prevBtn').disabled = currentPage === 1;
             document.getElementById('nextBtn').disabled = end >= allData.length;
         }
 
-        function changePage(direction) {
-            currentPage += direction;
-            renderTable();
-        }
+        function changePage(direction) { currentPage += direction; renderTable(); }
 
-        // KONFIGURASI GRAFIK
         const ctx = document.getElementById('progresChart').getContext('2d');
         new Chart(ctx, {
             type: 'line',
             data: {
                 labels: allData.map(d => d.tgl),
                 datasets: [
-                    {
-                        label: 'Progres Aktual (%)',
-                        data: allData.map(d => d.akt),
-                        borderColor: '#e74c3c',
-                        backgroundColor: 'rgba(231, 76, 60, 0.2)',
-                        fill: true,
-                        tension: 0.3
-                    },
-                    {
-                        label: 'Progres Rencana (%)',
-                        data: allData.map(d => d.ren),
-                        borderColor: '#3498db',
-                        borderDash: [5, 5],
-                        fill: false,
-                        tension: 0.3
-                    }
+                    { label: 'Aktual (%)', data: allData.map(d => d.akt), borderColor: '#e74c3c', backgroundColor: 'rgba(231, 76, 60, 0.1)', fill: true, tension: 0.3 },
+                    { label: 'Rencana (%)', data: allData.map(d => d.ren), borderColor: '#3498db', borderDash: [5, 5], fill: false, tension: 0.3 }
                 ]
             },
-            options: {
-                responsive: true,
-                plugins: { legend: { position: 'top' } },
-                scales: { y: { beginAtZero: false, min: 50 } }
-            }
+            options: { responsive: true, scales: { y: { beginAtZero: false } } }
         });
 
         renderTable();
