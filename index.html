@@ -4,57 +4,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Proyek Tol Probolinggo-Banyuwangi Paket 3</title>
+    
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
     <style>
         :root { --waskita-blue: #003060; --waskita-gold: #f1c40f; --danger: #e74c3c; }
         body, html { margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; scroll-behavior: smooth; color: #333; background-color: #f4f7f6; }
         
-        nav { position: fixed; top: 0; width: 100%; padding: 15px 0; display: flex; justify-content: space-around; background: rgba(0, 48, 96, 0.95); z-index: 1000; align-items: center; }
-        nav a { color: white; text-decoration: none; font-weight: bold; margin: 0 15px; font-size: 14px; transition: 0.3s; }
+        /* Navigation */
+        nav { position: fixed; top: 0; width: 100%; padding: 10px 0; display: flex; justify-content: space-around; background: rgba(0, 48, 96, 0.95); z-index: 2000; align-items: center; }
+        nav a { color: white; text-decoration: none; font-weight: bold; margin: 0 10px; font-size: 13px; transition: 0.3s; }
         nav a:hover { color: var(--waskita-gold); }
+        .nav-logo { height: 45px; width: auto; margin-right: 12px; }
+        .brand-container { display: flex; align-items: center; }
         .nav-btn { background: var(--danger); padding: 8px 15px; border-radius: 5px; }
 
+        /* Hero Section */
         .hero {
             background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('Background.PNG');
             height: 100vh; background-size: cover; background-position: center; background-attachment: fixed;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             color: white; text-align: center; padding: 0 20px;
         }
-        .hero h1 { font-size: 3rem; margin-bottom: 10px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
-        .hero p { font-size: 1.2rem; max-width: 800px; }
+        .hero h1 { font-size: 2.8rem; margin-bottom: 10px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
+        .hero p { font-size: 1.1rem; max-width: 800px; }
 
-        .section { padding: 100px 10% 60px; }
-        .card { background: white; padding: 35px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); margin-bottom: 40px; }
-        h2 { color: var(--waskita-blue); border-left: 5px solid var(--waskita-gold); padding-left: 15px; margin-bottom: 30px; }
+        /* Content Sections */
+        .section { padding: 100px 8% 60px; }
+        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); margin-bottom: 40px; }
+        h2 { color: var(--waskita-blue); border-left: 5px solid var(--waskita-gold); padding-left: 15px; margin-bottom: 25px; }
 
+        /* Info Table */
         .info-table { width: 100%; border-collapse: collapse; }
         .info-table tr:nth-child(even) { background: #f9f9f9; }
         .info-table td { padding: 12px 15px; border: 1px solid #eee; font-size: 14px; }
-        .info-table td:first-child { font-weight: bold; color: var(--waskita-blue); width: 30%; }
+        .info-table td:first-child { font-weight: bold; color: var(--waskita-blue); width: 35%; }
 
-        table.data-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        /* Data Table */
+        table.data-table { width: 100%; border-collapse: collapse; margin-top: 20px; text-align: center; }
         .data-table th { background: var(--waskita-blue); color: white; padding: 12px; font-size: 13px; }
-        .data-table td { border: 1px solid #ddd; padding: 10px; text-align: center; font-size: 13px; }
+        .data-table td { border: 1px solid #ddd; padding: 10px; font-size: 13px; }
 
         .pagination { margin-top: 20px; display: flex; justify-content: center; gap: 10px; }
-        .page-btn { padding: 10px 20px; cursor: pointer; background: var(--waskita-blue); color: white; border: none; border-radius: 5px; }
+        .page-btn { padding: 8px 20px; cursor: pointer; background: var(--waskita-blue); color: white; border: none; border-radius: 5px; }
         .page-btn:disabled { background: #ccc; }
+
+        /* Map */
+        #map { height: 500px; width: 100%; border-radius: 12px; z-index: 1; }
     </style>
 </head>
 <body>
 
     <nav>
-    <div class="brand-container">
-        <img src="Waskita Logo.png">
-        <div style="color:white; font-weight:900; letter-spacing:1px;">WASKITA INFRA II</div>
-    </div>
-    <div>
-        <a href="#beranda">BERANDA</a>
-        <a href="#tentang">TENTANG KAMI</a>
-        <a href="#progres">PROGRES & DOKUMENTASI</a>
-        <a href="#lokasi" class="nav-btn">LIHAT LOKASI PROYEK</a>
-    </div>
-</nav>
+        <div class="brand-container">
+            <img src="Waskita Logo.png" class="nav-logo" alt="Logo Waskita">
+            <div style="color:white; font-weight:900; letter-spacing:1px; line-height: 1.1;">WASKITA<br><span style="font-size: 10px; color: var(--waskita-gold);">INFRA II</span></div>
+        </div>
+        <div>
+            <a href="#beranda">BERANDA</a>
+            <a href="#tentang">TENTANG KAMI</a>
+            <a href="#progres">PROGRES & DOKUMENTASI</a>
+            <a href="#lokasi" class="nav-btn">LOKASI PROYEK</a>
+        </div>
+    </nav>
 
     <div class="hero" id="beranda">
         <h1>Proyek Jalan Tol Probolinggo Banyuwangi</h1>
@@ -69,13 +83,13 @@
                 <tr><td>Lokasi Porsi WSKT</td><td>MR STA 32+000 – STA 36+300, MR STA 43+000 – 44+500 & Rest Area</td></tr>
                 <tr><td>Pengguna Jasa</td><td>PT. Jasamarga Probolinggo - Banyuwangi</td></tr>
                 <tr><td>Lokasi Proyek</td><td>Kab. Probolinggo dan Kab. Situbondo, Provinsi Jawa Timur</td></tr>
-                <tr><td>Jangka Waktu Pelaksanaan</td><td>549 Hari Kalender sejak SPMK ditandatangani</td></tr>
+                <tr><td>Jangka Waktu Pelaksanaan</td><td>549 Hari Kalender sejak SPMK</td></tr>
                 <tr><td>Masa Pemeliharaan</td><td>1095 Hari Kalender</td></tr>
                 <tr><td>Jenis Kontrak</td><td>Gabungan Lump Sum dan Harga Satuan</td></tr>
                 <tr><td>Cara Pembayaran</td><td>Sertifikat Bulanan</td></tr>
-                <tr><td>Nilai Kontrak Total</td><td>Rp. 1.106.471.907.532 (Include PPN 11%)</td></tr>
+                <tr><td>Nilai Kontrak Total</td><td>Rp. 1.106.471.907.532 (Inc. PPN 11%)</td></tr>
                 <tr><td>Uang Muka</td><td>Tidak diberlakukan</td></tr>
-                <tr><td>Jangka Waktu Pembayaran</td><td>Selambat-lambatnya 90 hari sejak Tagihan diterima & disetujui</td></tr>
+                <tr><td>Jangka Waktu Pembayaran</td><td>Max 90 hari sejak Tagihan disetujui</td></tr>
             </table>
         </div>
     </div>
@@ -95,7 +109,7 @@
                             <th>Periode</th>
                             <th>Aktual (%)</th>
                             <th>Rencana (%)</th>
-                            <th>Dokumentasi Video</th>
+                            <th>Video Dokumentasi</th>
                             <th>Link Orthophoto</th>
                         </tr>
                     </thead>
@@ -109,31 +123,33 @@
         </div>
     </div>
 
-    <div class="section" id="lokasi" style="text-align: center;">
+    <div class="section" id="lokasi">
         <div class="card">
-            <h2>Lokasi Proyek</h2>
-            <p>Koordinat Proyek: -7.72647890, 113.63515320</p>
-            <a href="https://maps.google.com/?q=-7.72647890,113.63515320" target="_blank" class="page-btn" style="background:#27ae60; text-decoration:none;">Buka Google Maps</a>
+            <h2>OneMap Sebaran Proyek Kami</h2>
+            <p>Arahkan kursor atau scroll untuk melihat lokasi proyek secara mendetail.</p>
+            <div id="map"></div>
         </div>
     </div>
 
     <script>
+        // DATA PROGRESS
         const allData = [
-            { tgl: "2025-01-31", akt: 62.789, ren: 64.138, vid: "https://youtu.be/UjgrYPep6GQ", ortho: "https://ptwaskita-my.sharepoint.com/:f:/r/personal/fahmi_waskita_co_id/Documents/BIM%20-%20INFRA%202/Project/WKINF2%20-%201323020%20Jalan%20Tol%20Probowangi/1.%20WIP/GIS/13.%20Update%20Orthophoto?csf=1&web=1&e=hUflvD"},
-            { tgl: "2025-02-28", akt: 65.437, ren: 68.443, vid: "https://youtu.be/iQzbvK9XGlg", ortho: "https://ptwaskita-my.sharepoint.com/:f:/r/personal/fahmi_waskita_co_id/Documents/BIM%20-%20INFRA%202/Project/WKINF2%20-%201323020%20Jalan%20Tol%20Probowangi/1.%20WIP/GIS/13.%20Update%20Orthophoto?csf=1&web=1&e=hUflvD"},
-            { tgl: "2025-05-31", akt: 73.252, ren: 98.324, vid: "https://youtu.be/VUaEwmB2Y0Y", ortho: "https://ptwaskita-my.sharepoint.com/personal/fahmi_waskita_co_id/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Ffahmi%5Fwaskita%5Fco%5Fid%2FDocuments%2FBIM%20%2D%20INFRA%202%2FProject%2FWKINF2%20%2D%201323020%20Jalan%20Tol%20Probowangi%2F1%2E%20WIP%2FGIS%2F13%2E%20Update%20Orthophoto&csf=1&web=1&e=hUflvD&CID=a6ebeb1f%2Dbce7%2D4e68%2Db3a9%2Dba77ef03f7ee&FolderCTID=0x0120008AE2C3201DBDD44A93E08450C0DB2828&view=0"},
-            { tgl: "2025-06-29", akt: 75.349, ren: 76.875, vid: "https://youtu.be/NGjyKZUuddQ", ortho: "https://ptwaskita-my.sharepoint.com/personal/fahmi_waskita_co_id/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Ffahmi%5Fwaskita%5Fco%5Fid%2FDocuments%2FBIM%20%2D%20INFRA%202%2FProject%2FWKINF2%20%2D%201323020%20Jalan%20Tol%20Probowangi%2F1%2E%20WIP%2FGIS%2F13%2E%20Update%20Orthophoto&csf=1&web=1&e=hUflvD&CID=a6ebeb1f%2Dbce7%2D4e68%2Db3a9%2Dba77ef03f7ee&FolderCTID=0x0120008AE2C3201DBDD44A93E08450C0DB2828&view=0"},
-            { tgl: "2025-07-30", akt: 77.363, ren: 80.608, vid: "https://youtu.be/k_8xtlQsFlw", ortho: "https://ptwaskita-my.sharepoint.com/personal/fahmi_waskita_co_id/_layouts/15/onedrive.aspx?csf=1&web=1&e=hUflvD&CID=3a5f9cf3%2D0b69%2D46b4%2D962e%2D74d852bb0306&id=%2Fpersonal%2Ffahmi%5Fwaskita%5Fco%5Fid%2FDocuments%2FBIM%20%2D%20INFRA%202%2FProject%2FWKINF2%20%2D%201323020%20Jalan%20Tol%20Probowangi%2F1%2E%20WIP%2FGIS%2F13%2E%20Update%20Orthophoto&FolderCTID=0x0120008AE2C3201DBDD44A93E08450C0DB2828&view=0"},
-            { tgl: "2025-08-31", akt: 79.588, ren: 84.178, vid: "https://youtu.be/Iv64ufqADqw", ortho: "https://ptwaskita-my.sharepoint.com/:f:/r/personal/fahmi_waskita_co_id/Documents/BIM%20-%20INFRA%202/Project/WKINF2%20-%201323020%20Jalan%20Tol%20Probowangi/1.%20WIP/GIS/13.%20Update%20Orthophoto?csf=1&web=1&e=hUflvD"},
-            { tgl: "2025-09-28", akt: 82.751, ren: 88.244, vid: "https://youtu.be/CDN7ItbGyZ4", ortho: "https://ptwaskita-my.sharepoint.com/:f:/r/personal/fahmi_waskita_co_id/Documents/BIM%20-%20INFRA%202/Project/WKINF2%20-%201323020%20Jalan%20Tol%20Probowangi/1.%20WIP/GIS/13.%20Update%20Orthophoto?csf=1&web=1&e=hUflvD"},
-            { tgl: "2025-10-31", akt: 86.245, ren: 94.047, vid: "https://youtu.be/FqbM4jzdmx8", ortho: "https://ptwaskita-my.sharepoint.com/:f:/r/personal/fahmi_waskita_co_id/Documents/BIM%20-%20INFRA%202/Project/WKINF2%20-%201323020%20Jalan%20Tol%20Probowangi/1.%20WIP/GIS/13.%20Update%20Orthophoto?csf=1&web=1&e=hUflvD"},
-            { tgl: "2025-11-30", akt: 90.046, ren: 91.819, vid: "https://youtu.be/-Tc_ReH4OVQ?si=7OyTUTnfXO1yb-Vg", ortho: "https://ptwaskita-my.sharepoint.com/:f:/r/personal/fahmi_waskita_co_id/Documents/BIM%20-%20INFRA%202/Project/WKINF2%20-%201323020%20Jalan%20Tol%20Probowangi/1.%20WIP/GIS/13.%20Update%20Orthophoto?csf=1&web=1&e=hUflvD"},
-            { tgl: "2025-12-28", akt: 92.281, ren: 94.242, vid: "https://youtu.be/RFdmWkQxzGw", ortho: "https://ptwaskita-my.sharepoint.com/:f:/r/personal/fahmi_waskita_co_id/Documents/BIM%20-%20INFRA%202/Project/WKINF2%20-%201323020%20Jalan%20Tol%20Probowangi/1.%20WIP/GIS/13.%20Update%20Orthophoto?csf=1&web=1&e=hUflvD"}
+            { tgl: "2025-01-31", akt: 62.789, ren: 64.138, vid: "https://youtu.be/UjgrYPep6GQ", ortho: "https://ptwaskita-my.sharepoint.com/:f:/r/personal/fahmi_waskita_co_id/Documents/BIM%20-%20INFRA%202/Project/WKINF2%20-%201323020%20Jalan%20Tol%20Probowangi/1.%20WIP/GIS/13.%20Update%20Orthophoto?csf=1&web=1&e=hUflvD" },
+            { tgl: "2025-02-28", akt: 65.437, ren: 68.443, vid: "https://youtu.be/iQzbvK9XGlg", ortho: "https://ptwaskita-my.sharepoint.com/:f:/r/personal/fahmi_waskita_co_id/Documents/BIM%20-%20INFRA%202/Project/WKINF2%20-%201323020%20Jalan%20Tol%20Probowangi/1.%20WIP/GIS/13.%20Update%20Orthophoto?csf=1&web=1&e=hUflvD" },
+            { tgl: "2025-05-31", akt: 73.252, ren: 98.324, vid: "https://youtu.be/VUaEwmB2Y0Y", ortho: "https://ptwaskita-my.sharepoint.com/personal/fahmi_waskita_co_id/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Ffahmi%5Fwaskita%5Fco%5Fid%2FDocuments%2FBIM%20%2D%20INFRA%202%2FProject%2FWKINF2%20%2D%201323020%20Jalan%20Tol%20Probowangi%2F1%2E%20WIP%2FGIS%2F13%2E%20Update%20Orthophoto&csf=1&web=1&e=hUflvD" },
+            { tgl: "2025-06-29", akt: 75.349, ren: 76.875, vid: "https://youtu.be/NGjyKZUuddQ", ortho: "https://ptwaskita-my.sharepoint.com/personal/fahmi_waskita_co_id/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Ffahmi%5Fwaskita%5Fco%5Fid%2FDocuments%2FBIM%20%2D%20INFRA%202%2FProject%2FWKINF2%20%2D%201323020%20Jalan%20Tol%20Probowangi%2F1%2E%20WIP%2FGIS%2F13%2E%20Update%20Orthophoto&csf=1&web=1&e=hUflvD" },
+            { tgl: "2025-07-30", akt: 77.363, ren: 80.608, vid: "https://youtu.be/k_8xtlQsFlw", ortho: "https://ptwaskita-my.sharepoint.com/personal/fahmi_waskita_co_id/_layouts/15/onedrive.aspx?csf=1&web=1&e=hUflvD" },
+            { tgl: "2025-08-31", akt: 79.588, ren: 84.178, vid: "https://youtu.be/Iv64ufqADqw", ortho: "https://ptwaskita-my.sharepoint.com/:f:/r/personal/fahmi_waskita_co_id/Documents/BIM%20-%20INFRA%202/Project/WKINF2%20-%201323020%20Jalan%20Tol%20Probowangi/1.%20WIP/GIS/13.%20Update%20Orthophoto?csf=1&web=1&e=hUflvD" },
+            { tgl: "2025-09-28", akt: 82.751, ren: 88.244, vid: "https://youtu.be/CDN7ItbGyZ4", ortho: "https://ptwaskita-my.sharepoint.com/:f:/r/personal/fahmi_waskita_co_id/Documents/BIM%20-%20INFRA%202/Project/WKINF2%20-%201323020%20Jalan%20Tol%20Probowangi/1.%20WIP/GIS/13.%20Update%20Orthophoto?csf=1&web=1&e=hUflvD" },
+            { tgl: "2025-10-31", akt: 86.245, ren: 94.047, vid: "https://youtu.be/FqbM4jzdmx8", ortho: "https://ptwaskita-my.sharepoint.com/:f:/r/personal/fahmi_waskita_co_id/Documents/BIM%20-%20INFRA%202/Project/WKINF2%20-%201323020%20Jalan%20Tol%20Probowangi/1.%20WIP/GIS/13.%20Update%20Orthophoto?csf=1&web=1&e=hUflvD" },
+            { tgl: "2025-11-30", akt: 90.046, ren: 91.819, vid: "https://youtu.be/-Tc_ReH4OVQ", ortho: "https://ptwaskita-my.sharepoint.com/:f:/r/personal/fahmi_waskita_co_id/Documents/BIM%20-%20INFRA%202/Project/WKINF2%20-%201323020%20Jalan%20Tol%20Probowangi/1.%20WIP/GIS/13.%20Update%20Orthophoto?csf=1&web=1&e=hUflvD" },
+            { tgl: "2025-12-28", akt: 92.281, ren: 94.242, vid: "https://youtu.be/RFdmWkQxzGw", ortho: "https://ptwaskita-my.sharepoint.com/:f:/r/personal/fahmi_waskita_co_id/Documents/BIM%20-%20INFRA%202/Project/WKINF2%20-%201323020%20Jalan%20Tol%20Probowangi/1.%20WIP/GIS/13.%20Update%20Orthophoto?csf=1&web=1&e=hUflvD" }
         ];
 
         let currentPage = 1;
         const rowsPerPage = 5;
 
+        // FUNGSI TABEL
         function renderTable() {
             const tbody = document.getElementById('table-body');
             tbody.innerHTML = "";
@@ -154,11 +170,9 @@
             document.getElementById('nextBtn').disabled = end >= allData.length;
         }
 
-        function changePage(direction) {
-            currentPage += direction;
-            renderTable();
-        }
+        function changePage(direction) { currentPage += direction; renderTable(); }
 
+        // KONFIGURASI CHART
         const ctx = document.getElementById('progresChart').getContext('2d');
         new Chart(ctx, {
             type: 'line',
@@ -171,6 +185,19 @@
             },
             options: { responsive: true, scales: { y: { beginAtZero: false } } }
         });
+
+        // KONFIGURASI MAP LEAFLET
+        const map = L.map('map').setView([-2.5, 118], 5);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+        const proyekCoord = [-7.72647890, 113.63515320];
+        L.marker(proyekCoord).addTo(map).bindPopup("<b>Tol Probolinggo-Banyuwangi Seksi 3</b>");
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) { map.flyTo(proyekCoord, 15, { duration: 2.5 }); }
+            });
+        }, { threshold: 0.5 });
+        observer.observe(document.getElementById('map'));
 
         renderTable();
     </script>
