@@ -1,9 +1,7 @@
-| <img src="https://id.wikipedia.org/wiki/Berkas:Danantara_Indonesia_%28no_SW%29.svg" width="150"> | <p align="right"><img src="https://id.wikipedia.org/wiki/Waskita_Karya" width="150"></p> |
+| <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Logo_Danantara.svg/512px-Logo_Danantara.svg.png" width="180"> | <p align="right"><img src="https://upload.wikimedia.org/wikipedia/id/thumb/a/af/Waskita_Karya_logo.svg/1280px-Waskita_Karya_logo.svg.png" width="150"></p> |
 | :--- | ---: |
 
 ---
-
-
 
 # Laporan Progres dan Update Digital Survey Proyek Jalan Tol Probolinggo-Banyuwangi Seksi 3
 
