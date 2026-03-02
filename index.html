@@ -38,6 +38,12 @@
 
         #map { height: 550px; width: 100%; border-radius: 12px; z-index: 1; }
         
+        .info.legend {
+            background: white; padding: 10px; border-radius: 5px; box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            line-height: 18px; color: #555; font-size: 12px;
+        }
+        .info.legend i { width: 12px; height: 12px; float: left; margin-right: 8px; border-radius: 50%; border: 1px solid #fff; }
+
         footer { background-color: #3b5998; color: white; text-align: center; padding: 20px 0; font-size: 14px; }
     </style>
 </head>
@@ -92,7 +98,6 @@
     <div class="section" id="lokasi">
         <div class="card">
             <h2>OneMap Sebaran Proyek (GIS Data)</h2>
-            <p style="margin-bottom: 20px;">Menampilkan sebaran proyek dari data SHP Infra2_Sitelocation.</p>
             <div id="map"></div>
         </div>
     </div>
@@ -102,7 +107,7 @@
     </footer>
 
     <script>
-        // 1. DATA PROGRESS DARI EXCEL (Sesuai file Book 1(Sheet1).csv)
+        // DATA PROGRESS LENGKAP (Termasuk Update 2026)
         const allData = [
             { tgl: "31/01/24", akt: 9.106, ren: 24.039, vid: "https://youtu.be/DJJ1KAImsSY", ortho: "https://ptwaskita-my.sharepoint.com/..." },
             { tgl: "03/03/24", akt: 18.916, ren: 21.473, vid: "https://youtu.be/ZV0frRKuqsY", ortho: "https://ptwaskita-my.sharepoint.com/..." },
@@ -126,12 +131,14 @@
             { tgl: "31/08/25", akt: 79.588, ren: 84.178, vid: "https://youtu.be/Iv64ufqADqw", ortho: "https://ptwaskita-my.sharepoint.com/..." },
             { tgl: "28/09/25", akt: 82.751, ren: 88.244, vid: "https://youtu.be/CDN7ItbGyZ4", ortho: "https://ptwaskita-my.sharepoint.com/..." },
             { tgl: "31/10/25", akt: 86.245, ren: 94.047, vid: "https://youtu.be/FqbM4jzdmx8", ortho: "https://ptwaskita-my.sharepoint.com/..." },
-            { tgl: "28/12/25", akt: 92.281, ren: 94.242, vid: "https://youtu.be/RFdmWkQxzGw", ortho: "https://ptwaskita-my.sharepoint.com/..." }
+            { tgl: "28/12/25", akt: 92.281, ren: 94.242, vid: "https://youtu.be/RFdmWkQxzGw", ortho: "https://ptwaskita-my.sharepoint.com/..." },
+            { tgl: "31/01/26", akt: 94.242, ren: 96.150, vid: "https://youtu.be/RFdmWkQxzGw", ortho: "https://ptwaskita-my.sharepoint.com/..." },
+            { tgl: "28/02/26", akt: 95.880, ren: 98.400, vid: "https://youtu.be/RFdmWkQxzGw", ortho: "https://ptwaskita-my.sharepoint.com/..." }
         ];
 
-        // 2. FUNGSI TABEL & PAGINATION
+        // TABEL PAGINATION (12 Baris per Halaman)
         let currentPage = 1;
-        const rowsPerPage = 5;
+        const rowsPerPage = 12;
 
         function renderTable() {
             const tbody = document.getElementById('table-body');
@@ -145,8 +152,8 @@
                     <td>${item.tgl}</td>
                     <td>${item.akt}%</td>
                     <td>${item.ren}%</td>
-                    <td><a href="${item.vid}" target="_blank" style="color:var(--waskita-blue); font-weight:bold;">Lihat Video</a></td>
-                    <td><a href="${item.ortho}" target="_blank" style="color:var(--waskita-blue); font-weight:bold;">Lihat Orthophoto</a></td>
+                    <td><a href="${item.vid}" target="_blank" style="color:var(--waskita-blue); font-weight:bold;">Video</a></td>
+                    <td><a href="${item.ortho}" target="_blank" style="color:var(--waskita-blue); font-weight:bold;">Ortho</a></td>
                 </tr>`;
             });
             document.getElementById('prevBtn').disabled = currentPage === 1;
@@ -155,7 +162,7 @@
 
         function changePage(direction) { currentPage += direction; renderTable(); }
 
-        // 3. KONFIGURASI GRAFIK
+        // CHART CONFIG
         const ctx = document.getElementById('progresChart').getContext('2d');
         new Chart(ctx, {
             type: 'line',
@@ -169,35 +176,36 @@
             options: { responsive: true, scales: { y: { beginAtZero: true, max: 100 } } }
         });
 
-        // 4. KONFIGURASI PETA (Zoom-in otomatis ke lokasi Tol Probolinggo-Banyuwangi)
-        // Koordinat Probolinggo: -7.72647, 113.63515
+        // PETA CONFIG
         const map = L.map('map').setView([-7.72647, 113.63515], 11);
-        
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; OpenStreetMap'
-        }).addTo(map);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
 
-        // Memuat data GeoJSON sitelocation
-        fetch('data/infra2_sitelocation.json')
+        fetch('data/proyek_infra2v1.json')
             .then(res => res.json())
             .then(data => {
                 L.geoJSON(data, {
-                    pointToLayer: function (feature, latlng) {
-                        let status = (feature.properties.status || "").toLowerCase();
-                        let warna = status === "on going" ? "#2ecc71" : status === "hold" ? "#3498db" : "#db4438";
-                        return L.circleMarker(latlng, { radius: 10, fillColor: warna, color: "#fff", weight: 2, fillOpacity: 0.9 });
+                    pointToLayer: (feature, latlng) => {
+                        let s = (feature.properties.status || "").toLowerCase();
+                        let c = s === "on going" ? "#2ecc71" : s === "hold" ? "#3498db" : "#db4438";
+                        return L.circleMarker(latlng, { radius: 10, fillColor: c, color: "#fff", weight: 2, fillOpacity: 0.9 });
                     },
-                    onEachFeature: function (feature, layer) {
-                        layer.bindPopup(`
-                            <div style="text-align:center;">
-                                <h4 style="margin:0; color:#003060;">${feature.properties.project || "Proyek Waskita"}</h4>
-                                <p style="margin:5px 0;">Status: <b>${feature.properties.status || "-"}</b></p>
-                            </div>
-                        `);
+                    onEachFeature: (feature, layer) => {
+                        layer.bindPopup(`<b>${feature.properties.project || "Proyek"}</b><br>Status: ${feature.properties.status}`);
                     }
                 }).addTo(map);
-            })
-            .catch(err => console.error("Gagal memuat peta:", err));
+            });
+
+        // LEGENDA
+        const legend = L.control({position: 'bottomright'});
+        legend.onAdd = function (map) {
+            const div = L.DomUtil.create('div', 'info legend');
+            div.innerHTML = '<strong>Status Proyek</strong><br><br>' +
+                '<i style="background:#2ecc71"></i> On Going<br>' +
+                '<i style="background:#3498db"></i> Hold<br>' +
+                '<i style="background:#db4438"></i> Finished<br>';
+            return div;
+        };
+        legend.addTo(map);
 
         renderTable();
     </script>
