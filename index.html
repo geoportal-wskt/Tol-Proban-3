@@ -29,19 +29,20 @@
         .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); margin-bottom: 40px; }
         h2 { color: var(--waskita-blue); border-left: 5px solid var(--waskita-gold); padding-left: 15px; margin-bottom: 25px; }
 
+        .info-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        .info-table td { padding: 12px; border-bottom: 1px solid #eee; font-size: 14px; }
+        .info-table td:first-child { font-weight: bold; color: var(--waskita-blue); width: 35%; }
+
         table.data-table { width: 100%; border-collapse: collapse; margin-top: 20px; text-align: center; }
         .data-table th { background: var(--waskita-blue); color: white; padding: 12px; font-size: 13px; }
         .data-table td { border: 1px solid #ddd; padding: 10px; font-size: 13px; }
+        
         .pagination { margin-top: 20px; display: flex; justify-content: center; gap: 10px; }
         .page-btn { padding: 8px 20px; cursor: pointer; background: var(--waskita-blue); color: white; border: none; border-radius: 5px; }
-        .page-btn:disabled { background: #ccc; }
+        .page-btn:disabled { background: #ccc; cursor: not-allowed; }
 
         #map { height: 550px; width: 100%; border-radius: 12px; z-index: 1; }
-        
-        .info.legend {
-            background: white; padding: 10px; border-radius: 5px; box-shadow: 0 0 15px rgba(0,0,0,0.2);
-            line-height: 18px; color: #555; font-size: 12px;
-        }
+        .info.legend { background: white; padding: 10px; border-radius: 5px; box-shadow: 0 0 15px rgba(0,0,0,0.2); font-size: 12px; line-height: 18px; }
         .info.legend i { width: 12px; height: 12px; float: left; margin-right: 8px; border-radius: 50%; border: 1px solid #fff; }
 
         footer { background-color: #3b5998; color: white; text-align: center; padding: 20px 0; font-size: 14px; }
@@ -56,6 +57,7 @@
         </div>
         <div>
             <a href="#beranda">BERANDA</a>
+            <a href="#tentang">TENTANG PROYEK</a>
             <a href="#progres">PROGRES & DOKUMENTASI</a>
             <a href="#lokasi">LOKASI PROYEK</a>
         </div>
@@ -64,6 +66,22 @@
     <div class="hero" id="beranda">
         <h1>Proyek Jalan Tol Probolinggo Banyuwangi Seksi 3</h1>
         <p>Dashboard untuk memantau secara real-time progres dan update digital survey.</p>
+    </div>
+
+    <div class="section" id="tentang">
+        <div class="card">
+            <h2>Informasi Umum Proyek</h2>
+            <table class="info-table">
+                <tr><td>Nama Proyek</td><td>Pembangunan Jalan Tol Probolinggo-Banyuwangi Paket 3 (Seksi 3)</td></tr>
+                <tr><td>Lokasi</td><td>Bulupandan - Banyuwangi, Jawa Timur</td></tr>
+                <tr><td>Pemberi Kerja</td><td>PT Jasamarga Probolinggo Banyuwangi</td></tr>
+                <tr><td>Kontraktor Utama</td><td>PT Waskita Karya (Persero) Tbk.</td></tr>
+                <tr><td>Panjang Jalan</td><td>± 9,89 km</td></tr>
+                <tr><td>Nilai Kontrak</td><td>Sesuai Kontrak Induk Divisi Infrastruktur II</td></tr>
+                <tr><td>Lingkup Pekerjaan</td><td>Pekerjaan Tanah, Perkerasan, Struktur Jembatan, Overpass, Underpass</td></tr>
+                <tr><td>Metode Survei Utama</td><td>Photogrammetry (Drone) & Terrestrial Survey</td></tr>
+            </table>
+        </div>
     </div>
 
     <div class="section" id="progres">
@@ -97,7 +115,7 @@
 
     <div class="section" id="lokasi">
         <div class="card">
-            <h2>OneMap Sebaran Proyek (GIS Data)</h2>
+            <h2>OneMap Sebaran Proyek (Data Induk)</h2>
             <div id="map"></div>
         </div>
     </div>
@@ -107,36 +125,34 @@
     </footer>
 
     <script>
-        // DATA PROGRESS LENGKAP (Termasuk Update 2026)
+        // DATA PROGRESS LENGKAP (Update dari Book 1 CSV s/d Feb 2026)
         const allData = [
             { tgl: "31/01/24", akt: 9.106, ren: 24.039, vid: "https://youtu.be/DJJ1KAImsSY", ortho: "https://ptwaskita-my.sharepoint.com/..." },
             { tgl: "03/03/24", akt: 18.916, ren: 21.473, vid: "https://youtu.be/ZV0frRKuqsY", ortho: "https://ptwaskita-my.sharepoint.com/..." },
-            { tgl: "31/03/24", akt: 23.461, ren: 25.409, vid: "https://youtu.be/S0D8u9LOfzY", ortho: "https://ptwaskita-my.sharepoint.com/..." },
-            { tgl: "30/04/24", akt: 26.262, ren: 29.585, vid: "https://youtu.be/N17C3zIUnas", ortho: "https://ptwaskita-my.sharepoint.com/..." },
-            { tgl: "31/05/24", akt: 31.782, ren: 32.898, vid: "https://youtu.be/3alzW2CGTIs", ortho: "https://ptwaskita-my.sharepoint.com/..." },
-            { tgl: "30/06/24", akt: 36.196, ren: 36.875, vid: "https://youtu.be/T51K8nK51YI", ortho: "https://ptwaskita-my.sharepoint.com/..." },
-            { tgl: "31/07/24", akt: 41.050, ren: 40.608, vid: "https://youtu.be/91-eA9G90-k", ortho: "https://ptwaskita-my.sharepoint.com/..." },
-            { tgl: "31/08/24", akt: 45.362, ren: 44.178, vid: "https://youtu.be/D5O03P6B6K0", ortho: "https://ptwaskita-my.sharepoint.com/..." },
-            { tgl: "30/09/24", akt: 49.337, ren: 48.244, vid: "https://youtu.be/F51K9nK91YI", ortho: "https://ptwaskita-my.sharepoint.com/..." },
-            { tgl: "31/10/24", akt: 53.078, ren: 54.047, vid: "https://youtu.be/G51K9nK91YI", ortho: "https://ptwaskita-my.sharepoint.com/..." },
-            { tgl: "30/11/24", akt: 56.402, ren: 55.485, vid: "https://youtu.be/H51K9nK91YI", ortho: "https://ptwaskita-my.sharepoint.com/..." },
-            { tgl: "29/12/24", akt: 60.508, ren: 59.987, vid: "https://youtu.be/3alzW2CGTIs", ortho: "https://ptwaskita-my.sharepoint.com/..." },
+            { tgl: "29/03/24", akt: 23.176, ren: 25.295, vid: "https://youtu.be/O7fXKZYJDqw", ortho: "https://ptwaskita-my.sharepoint.com/..." },
+            { tgl: "28/04/24", akt: 25.247, ren: 28.655, vid: "https://youtu.be/ebkYw0BD1Bk", ortho: "https://ptwaskita-my.sharepoint.com/..." },
+            { tgl: "28/05/24", akt: 30.280, ren: 36.860, vid: "https://youtu.be/fn9lV-kZxxg", ortho: "https://ptwaskita-my.sharepoint.com/..." },
+            { tgl: "31/07/24", akt: 39.531, ren: 61.696, vid: "https://youtu.be/65ZFLITWnV4", ortho: "https://ptwaskita-my.sharepoint.com/..." },
+            { tgl: "25/08/24", akt: 45.755, ren: 48.689, vid: "https://youtu.be/vCu9T8g0pHY", ortho: "https://ptwaskita-my.sharepoint.com/..." },
+            { tgl: "29/09/24", akt: 49.505, ren: 50.405, vid: "https://youtu.be/eIvb7VeTSk4", ortho: "https://ptwaskita-my.sharepoint.com/..." },
+            { tgl: "27/10/24", akt: 51.617, ren: 53.392, vid: "https://youtu.be/4uwMfIjGzog", ortho: "https://ptwaskita-my.sharepoint.com/..." },
+            { tgl: "30/11/24", akt: 54.453, ren: 58.146, vid: "https://youtu.be/u_iHKGSTN9o", ortho: "https://ptwaskita-my.sharepoint.com/..." },
+            { tgl: "29/12/24", akt: 60.508, ren: 59.987, vid: "https://youtu.be/3aJzW2GZ3gg", ortho: "https://ptwaskita-my.sharepoint.com/..." },
             { tgl: "31/01/25", akt: 62.789, ren: 64.138, vid: "https://youtu.be/UjgrYPep6GQ", ortho: "https://ptwaskita-my.sharepoint.com/..." },
             { tgl: "28/02/25", akt: 65.437, ren: 68.443, vid: "https://youtu.be/iQzbvK9XGlg", ortho: "https://ptwaskita-my.sharepoint.com/..." },
-            { tgl: "31/03/25", akt: 70.023, ren: 88.418, vid: "https://youtu.be/I51K9nK91YI", ortho: "https://ptwaskita-my.sharepoint.com/..." },
-            { tgl: "30/04/25", akt: 73.252, ren: 98.324, vid: "https://youtu.be/J51K9nK91YI", ortho: "https://ptwaskita-my.sharepoint.com/..." },
+            { tgl: "04/05/25", akt: 70.023, ren: 86.418, vid: "https://youtu.be/16FFvaTJ6Gk", ortho: "https://ptwaskita-my.sharepoint.com/..." },
             { tgl: "31/05/25", akt: 73.252, ren: 98.324, vid: "https://youtu.be/VUaEwmB2Y0Y", ortho: "https://ptwaskita-my.sharepoint.com/..." },
             { tgl: "29/06/25", akt: 75.349, ren: 76.875, vid: "https://youtu.be/NGjyKZUuddQ", ortho: "https://ptwaskita-my.sharepoint.com/..." },
             { tgl: "30/07/25", akt: 77.363, ren: 80.608, vid: "https://youtu.be/k_8xtlQsFlw", ortho: "https://ptwaskita-my.sharepoint.com/..." },
             { tgl: "31/08/25", akt: 79.588, ren: 84.178, vid: "https://youtu.be/Iv64ufqADqw", ortho: "https://ptwaskita-my.sharepoint.com/..." },
             { tgl: "28/09/25", akt: 82.751, ren: 88.244, vid: "https://youtu.be/CDN7ItbGyZ4", ortho: "https://ptwaskita-my.sharepoint.com/..." },
             { tgl: "31/10/25", akt: 86.245, ren: 94.047, vid: "https://youtu.be/FqbM4jzdmx8", ortho: "https://ptwaskita-my.sharepoint.com/..." },
+            { tgl: "30/11/25", akt: 90.046, ren: 91.819, vid: "https://youtu.be/-Tc_ReH4OVQ", ortho: "https://ptwaskita-my.sharepoint.com/..." },
             { tgl: "28/12/25", akt: 92.281, ren: 94.242, vid: "https://youtu.be/RFdmWkQxzGw", ortho: "https://ptwaskita-my.sharepoint.com/..." },
-            { tgl: "31/01/26", akt: 94.242, ren: 96.150, vid: "https://youtu.be/RFdmWkQxzGw", ortho: "https://ptwaskita-my.sharepoint.com/..." },
+            { tgl: "31/01/26", akt: 93.330, ren: 96.873, vid: "https://youtu.be/R2j5sKq2gl0", ortho: "https://ptwaskita-my.sharepoint.com/..." },
             { tgl: "28/02/26", akt: 95.880, ren: 98.400, vid: "https://youtu.be/RFdmWkQxzGw", ortho: "https://ptwaskita-my.sharepoint.com/..." }
         ];
 
-        // TABEL PAGINATION (12 Baris per Halaman)
         let currentPage = 1;
         const rowsPerPage = 12;
 
@@ -162,7 +178,6 @@
 
         function changePage(direction) { currentPage += direction; renderTable(); }
 
-        // CHART CONFIG
         const ctx = document.getElementById('progresChart').getContext('2d');
         new Chart(ctx, {
             type: 'line',
@@ -176,26 +191,24 @@
             options: { responsive: true, scales: { y: { beginAtZero: true, max: 100 } } }
         });
 
-        // PETA CONFIG
         const map = L.map('map').setView([-7.72647, 113.63515], 11);
         L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
 
-        fetch('data/proyek_infra2v1.json')
-            .then(res => res.json())
-            .then(data => {
-                L.geoJSON(data, {
-                    pointToLayer: (feature, latlng) => {
-                        let s = (feature.properties.status || "").toLowerCase();
-                        let c = s === "on going" ? "#2ecc71" : s === "hold" ? "#3498db" : "#db4438";
-                        return L.circleMarker(latlng, { radius: 10, fillColor: c, color: "#fff", weight: 2, fillOpacity: 0.9 });
-                    },
-                    onEachFeature: (feature, layer) => {
-                        layer.bindPopup(`<b>${feature.properties.project || "Proyek"}</b><br>Status: ${feature.properties.status}`);
-                    }
-                }).addTo(map);
-            });
+        const masterDataUrl = 'https://raw.githubusercontent.com/geoportal-wskt/geoportal-wskt.github.io/main/data/proyek_infra2v1.json';
 
-        // LEGENDA
+        fetch(masterDataUrl).then(res => res.json()).then(data => {
+            L.geoJSON(data, {
+                pointToLayer: (feature, latlng) => {
+                    let s = (feature.properties.status || "").toLowerCase();
+                    let c = s === "on going" ? "#2ecc71" : s === "hold" ? "#3498db" : "#db4438";
+                    return L.circleMarker(latlng, { radius: 10, fillColor: c, color: "#fff", weight: 2, fillOpacity: 0.9 });
+                },
+                onEachFeature: (feature, layer) => {
+                    layer.bindPopup(`<b>${feature.properties.project || "Proyek"}</b><br>Status: ${feature.properties.status}`);
+                }
+            }).addTo(map);
+        });
+
         const legend = L.control({position: 'bottomright'});
         legend.onAdd = function (map) {
             const div = L.DomUtil.create('div', 'info legend');
