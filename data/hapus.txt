@@ -1,2 +1,0 @@
-data/hapus.txt
-abcadadafafaassaa
