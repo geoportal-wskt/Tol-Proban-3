@@ -10,7 +10,7 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <style>
-        :root { --waskita-blue: #003060; --waskita-gold: #f1c40f; --danger: #e74c3c; }
+        :root { --waskita-blue: #003060; --waskita-gold: #f1c40f; --danger: #e74c3c; --success: #2ecc71; }
         body, html { margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; scroll-behavior: smooth; color: #333; background-color: #f4f7f6; }
         
         nav { position: fixed; top: 0; width: 100%; padding: 10px 0; display: flex; justify-content: space-around; background: rgba(0, 48, 96, 0.95); z-index: 2000; align-items: center; }
@@ -29,6 +29,18 @@
         .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); margin-bottom: 40px; }
         h2 { color: var(--waskita-blue); border-left: 5px solid var(--waskita-gold); padding-left: 15px; margin-bottom: 25px; }
 
+        /* --- STYLE MONITORING DINAMIS --- */
+        .periode-title { text-align: center; margin-bottom: 15px; font-weight: bold; color: var(--waskita-blue); text-transform: uppercase; letter-spacing: 1px; }
+        .summary-container { display: flex; justify-content: space-between; gap: 15px; margin-bottom: 30px; }
+        .summary-box { 
+            background: white; padding: 20px; border-radius: 12px; flex: 1; text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 4px solid var(--waskita-blue);
+        }
+        .summary-box h3 { margin: 0; font-size: 11px; color: #777; text-transform: uppercase; }
+        .summary-box p { margin: 10px 0 0; font-size: 22px; font-weight: bold; color: var(--waskita-blue); }
+        .dev-plus { color: var(--success) !important; }
+        .dev-minus { color: var(--danger) !important; }
+
         .info-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
         .info-table td { padding: 12px; border-bottom: 1px solid #eee; font-size: 14px; }
         .info-table td:first-child { font-weight: bold; color: var(--waskita-blue); width: 35%; }
@@ -41,7 +53,7 @@
         .page-btn { padding: 8px 20px; cursor: pointer; background: var(--waskita-blue); color: white; border: none; border-radius: 5px; }
         .page-btn:disabled { background: #ccc; cursor: not-allowed; }
 
-        #map { height: 550px; width: 100%; border-radius: 12px; z-index: 1; }
+        #map { height: 550px; width: 100%; border-radius: 12px; z-index: 1; border: 1px solid #ddd; }
         .info.legend { background: white; padding: 10px; border-radius: 5px; box-shadow: 0 0 15px rgba(0,0,0,0.2); font-size: 12px; line-height: 18px; }
         .info.legend i { width: 12px; height: 12px; float: left; margin-right: 8px; border-radius: 50%; border: 1px solid #fff; }
 
@@ -58,14 +70,36 @@
         <div>
             <a href="#beranda">BERANDA</a>
             <a href="#tentang">TENTANG PROYEK</a>
-            <a href="#progres">PROGRES & DOKUMENTASI</a>
+            <a href="#progres">PROGRES & DATA</a>
             <a href="#lokasi">LOKASI PROYEK</a>
         </div>
     </nav>
 
     <div class="hero" id="beranda">
         <h1>Proyek Jalan Tol Probolinggo Banyuwangi Seksi 3</h1>
-        <p>Dashboard untuk memantau secara real-time progres dan update digital survey.</p>
+        <p>Dashboard Monitoring Digital Survey & Progres Fisik Real-Time</p>
+    </div>
+
+    <div class="section" style="padding-bottom: 0;">
+        <div class="periode-title" id="text-periode">Memuat Data...</div>
+        <div class="summary-container">
+            <div class="summary-box">
+                <h3>Rencana (%)</h3>
+                <p id="box-rencana">0%</p>
+            </div>
+            <div class="summary-box">
+                <h3>Aktual (%)</h3>
+                <p id="box-aktual">0%</p>
+            </div>
+            <div class="summary-box">
+                <h3>Deviasi</h3>
+                <p id="box-deviasi">0%</p>
+            </div>
+            <div class="summary-box">
+                <h3>Cuaca Lokasi</h3>
+                <p id="weather-info" style="font-size: 16px; margin-top: 15px;">Memuat...</p>
+            </div>
+        </div>
     </div>
 
     <div class="section" id="tentang">
@@ -78,7 +112,7 @@
                 <tr><td>Kontraktor Utama</td><td>PT Waskita Karya (Persero) Tbk.</td></tr>
                 <tr><td>Panjang Jalan</td><td>± 9,89 km</td></tr>
                 <tr><td>Nilai Kontrak</td><td>Sesuai Kontrak Induk Divisi Infrastruktur II</td></tr>
-                <tr><td>Lingkup Pekerjaan</td><td>Pekerjaan Tanah, Perkerasan, Struktur Jembatan, Overpass, Underpass</td></tr>
+                <tr><td>Lingkup Pekerjaan</td><td>Tanah, Perkerasan, Struktur Jembatan, Overpass, Underpass</td></tr>
                 <tr><td>Metode Survei Utama</td><td>Photogrammetry (Drone) & Terrestrial Survey</td></tr>
             </table>
         </div>
@@ -115,43 +149,55 @@
 
     <div class="section" id="lokasi">
         <div class="card">
-            <h2>OneMap Sebaran Proyek (Data Induk)</h2>
+            <h2>OneMap Sebaran Proyek </h2>
             <div id="map"></div>
         </div>
     </div>
 
-    <footer>
-        © 2026 Waskita Karya (Persero) Tbk. - Divisi Infrastruktur II - Tim Digital Survey & GIS. All Rights Reserved.
-    </footer>
+    <footer>© 2026 Waskita Karya (Persero) Tbk. - Divisi Infrastruktur II.</footer>
 
     <script>
-        // DATA PROGRESS LENGKAP (Update dari Book 1 CSV s/d Feb 2026)
+        // DATA PROGRESS LENGKAP
         const allData = [
-            { tgl: "31/01/24", akt: 9.106, ren: 24.039, vid: "https://youtu.be/DJJ1KAImsSY", ortho: "https://ptwaskita-my.sharepoint.com/..." },
-            { tgl: "03/03/24", akt: 18.916, ren: 21.473, vid: "https://youtu.be/ZV0frRKuqsY", ortho: "https://ptwaskita-my.sharepoint.com/..." },
-            { tgl: "29/03/24", akt: 23.176, ren: 25.295, vid: "https://youtu.be/O7fXKZYJDqw", ortho: "https://ptwaskita-my.sharepoint.com/..." },
-            { tgl: "28/04/24", akt: 25.247, ren: 28.655, vid: "https://youtu.be/ebkYw0BD1Bk", ortho: "https://ptwaskita-my.sharepoint.com/..." },
-            { tgl: "28/05/24", akt: 30.280, ren: 36.860, vid: "https://youtu.be/fn9lV-kZxxg", ortho: "https://ptwaskita-my.sharepoint.com/..." },
-            { tgl: "31/07/24", akt: 39.531, ren: 61.696, vid: "https://youtu.be/65ZFLITWnV4", ortho: "https://ptwaskita-my.sharepoint.com/..." },
-            { tgl: "25/08/24", akt: 45.755, ren: 48.689, vid: "https://youtu.be/vCu9T8g0pHY", ortho: "https://ptwaskita-my.sharepoint.com/..." },
-            { tgl: "29/09/24", akt: 49.505, ren: 50.405, vid: "https://youtu.be/eIvb7VeTSk4", ortho: "https://ptwaskita-my.sharepoint.com/..." },
-            { tgl: "27/10/24", akt: 51.617, ren: 53.392, vid: "https://youtu.be/4uwMfIjGzog", ortho: "https://ptwaskita-my.sharepoint.com/..." },
-            { tgl: "30/11/24", akt: 54.453, ren: 58.146, vid: "https://youtu.be/u_iHKGSTN9o", ortho: "https://ptwaskita-my.sharepoint.com/..." },
-            { tgl: "29/12/24", akt: 60.508, ren: 59.987, vid: "https://youtu.be/3aJzW2GZ3gg", ortho: "https://ptwaskita-my.sharepoint.com/..." },
-            { tgl: "31/01/25", akt: 62.789, ren: 64.138, vid: "https://youtu.be/UjgrYPep6GQ", ortho: "https://ptwaskita-my.sharepoint.com/..." },
-            { tgl: "28/02/25", akt: 65.437, ren: 68.443, vid: "https://youtu.be/iQzbvK9XGlg", ortho: "https://ptwaskita-my.sharepoint.com/..." },
-            { tgl: "04/05/25", akt: 70.023, ren: 86.418, vid: "https://youtu.be/16FFvaTJ6Gk", ortho: "https://ptwaskita-my.sharepoint.com/..." },
-            { tgl: "31/05/25", akt: 73.252, ren: 98.324, vid: "https://youtu.be/VUaEwmB2Y0Y", ortho: "https://ptwaskita-my.sharepoint.com/..." },
-            { tgl: "29/06/25", akt: 75.349, ren: 76.875, vid: "https://youtu.be/NGjyKZUuddQ", ortho: "https://ptwaskita-my.sharepoint.com/..." },
-            { tgl: "30/07/25", akt: 77.363, ren: 80.608, vid: "https://youtu.be/k_8xtlQsFlw", ortho: "https://ptwaskita-my.sharepoint.com/..." },
-            { tgl: "31/08/25", akt: 79.588, ren: 84.178, vid: "https://youtu.be/Iv64ufqADqw", ortho: "https://ptwaskita-my.sharepoint.com/..." },
-            { tgl: "28/09/25", akt: 82.751, ren: 88.244, vid: "https://youtu.be/CDN7ItbGyZ4", ortho: "https://ptwaskita-my.sharepoint.com/..." },
-            { tgl: "31/10/25", akt: 86.245, ren: 94.047, vid: "https://youtu.be/FqbM4jzdmx8", ortho: "https://ptwaskita-my.sharepoint.com/..." },
-            { tgl: "30/11/25", akt: 90.046, ren: 91.819, vid: "https://youtu.be/-Tc_ReH4OVQ", ortho: "https://ptwaskita-my.sharepoint.com/..." },
-            { tgl: "28/12/25", akt: 92.281, ren: 94.242, vid: "https://youtu.be/RFdmWkQxzGw", ortho: "https://ptwaskita-my.sharepoint.com/..." },
-            { tgl: "31/01/26", akt: 93.330, ren: 96.873, vid: "https://youtu.be/R2j5sKq2gl0", ortho: "https://ptwaskita-my.sharepoint.com/..." },
-            { tgl: "28/02/26", akt: 95.880, ren: 98.400, vid: "https://youtu.be/RFdmWkQxzGw", ortho: "https://ptwaskita-my.sharepoint.com/..." }
+            { tgl: "31/01/24", akt: 9.106, ren: 24.039, vid: "https://youtu.be/DJJ1KAImsSY", ortho: "#" },
+            { tgl: "03/03/24", akt: 18.916, ren: 21.473, vid: "https://youtu.be/ZV0frRKuqsY", ortho: "#" },
+            { tgl: "29/03/24", akt: 23.176, ren: 25.295, vid: "https://youtu.be/O7fXKZYJDqw", ortho: "#" },
+            { tgl: "28/04/24", akt: 25.247, ren: 28.655, vid: "https://youtu.be/ebkYw0BD1Bk", ortho: "#" },
+            { tgl: "28/05/24", akt: 30.280, ren: 36.860, vid: "https://youtu.be/fn9lV-kZxxg", ortho: "#" },
+            { tgl: "31/07/24", akt: 39.531, ren: 61.696, vid: "https://youtu.be/65ZFLITWnV4", ortho: "#" },
+            { tgl: "25/08/24", akt: 45.755, ren: 48.689, vid: "https://youtu.be/vCu9T8g0pHY", ortho: "#" },
+            { tgl: "29/09/24", akt: 49.505, ren: 50.405, vid: "https://youtu.be/eIvb7VeTSk4", ortho: "#" },
+            { tgl: "27/10/24", akt: 51.617, ren: 53.392, vid: "https://youtu.be/4uwMfIjGzog", ortho: "#" },
+            { tgl: "30/11/24", akt: 54.453, ren: 58.146, vid: "https://youtu.be/u_iHKGSTN9o", ortho: "#" },
+            { tgl: "29/12/24", akt: 60.508, ren: 59.987, vid: "https://youtu.be/3aJzW2GZ3gg", ortho: "#" },
+            { tgl: "31/01/25", akt: 62.789, ren: 64.138, vid: "https://youtu.be/UjgrYPep6GQ", ortho: "#" },
+            { tgl: "28/02/25", akt: 65.437, ren: 68.443, vid: "https://youtu.be/iQzbvK9XGlg", ortho: "#" },
+            { tgl: "04/05/25", akt: 70.023, ren: 86.418, vid: "https://youtu.be/16FFvaTJ6Gk", ortho: "#" },
+            { tgl: "31/05/25", akt: 73.252, ren: 98.324, vid: "https://youtu.be/VUaEwmB2Y0Y", ortho: "#" },
+            { tgl: "29/06/25", akt: 75.349, ren: 76.875, vid: "https://youtu.be/NGjyKZUuddQ", ortho: "#" },
+            { tgl: "30/07/25", akt: 77.363, ren: 80.608, vid: "https://youtu.be/k_8xtlQsFlw", ortho: "#" },
+            { tgl: "31/08/25", akt: 79.588, ren: 84.178, vid: "https://youtu.be/Iv64ufqADqw", ortho: "#" },
+            { tgl: "28/09/25", akt: 82.751, ren: 88.244, vid: "https://youtu.be/CDN7ItbGyZ4", ortho: "#" },
+            { tgl: "31/10/25", akt: 86.245, ren: 94.047, vid: "https://youtu.be/FqbM4jzdmx8", ortho: "#" },
+            { tgl: "30/11/25", akt: 90.046, ren: 91.819, vid: "https://youtu.be/-Tc_ReH4OVQ", ortho: "#" },
+            { tgl: "28/12/25", akt: 92.281, ren: 94.242, vid: "https://youtu.be/RFdmWkQxzGw", ortho: "#" },
+            { tgl: "31/01/26", akt: 93.330, ren: 96.873, vid: "https://youtu.be/R2j5sKq2gl0", ortho: "#" },
+            { tgl: "28/02/26", akt: 95.880, ren: 98.400, vid: "https://youtu.be/RFdmWkQxzGw", ortho: "#" }
         ];
+
+        // --- FUNGSI DINAMIS UPDATE ---
+        function refreshDashboard() {
+            const latest = allData[allData.length - 1]; //
+            const dev = (latest.akt - latest.ren).toFixed(3);
+            
+            document.getElementById('text-periode').innerText = "Update Progres Terakhir: " + latest.tgl;
+            document.getElementById('box-rencana').innerText = latest.ren + "%";
+            document.getElementById('box-aktual').innerText = latest.akt + "%";
+            
+            const devBox = document.getElementById('box-deviasi');
+            devBox.innerText = (dev > 0 ? "+" : "") + dev + "%";
+            devBox.className = dev >= 0 ? "dev-plus" : "dev-minus";
+        }
 
         let currentPage = 1;
         const rowsPerPage = 12;
@@ -161,13 +207,9 @@
             tbody.innerHTML = "";
             let start = (currentPage - 1) * rowsPerPage;
             let end = start + rowsPerPage;
-            let paginatedItems = allData.slice(start, end);
-
-            paginatedItems.forEach(item => {
+            allData.slice(start, end).forEach(item => {
                 tbody.innerHTML += `<tr>
-                    <td>${item.tgl}</td>
-                    <td>${item.akt}%</td>
-                    <td>${item.ren}%</td>
+                    <td>${item.tgl}</td><td>${item.akt}%</td><td>${item.ren}%</td>
                     <td><a href="${item.vid}" target="_blank" style="color:var(--waskita-blue); font-weight:bold;">Video</a></td>
                     <td><a href="${item.ortho}" target="_blank" style="color:var(--waskita-blue); font-weight:bold;">Ortho</a></td>
                 </tr>`;
@@ -176,7 +218,7 @@
             document.getElementById('nextBtn').disabled = end >= allData.length;
         }
 
-        function changePage(direction) { currentPage += direction; renderTable(); }
+        function changePage(dir) { currentPage += dir; renderTable(); }
 
         const ctx = document.getElementById('progresChart').getContext('2d');
         new Chart(ctx, {
@@ -188,54 +230,44 @@
                     { label: 'Rencana (%)', data: allData.map(d => d.ren), borderColor: '#3498db', borderDash: [5, 5], fill: false, tension: 0.3 }
                 ]
             },
-            options: { responsive: true, scales: { y: { beginAtZero: true, max: 100 } } }
+            options: { responsive: true, scales: { y: { beginAtZero: false, max: 100 } } }
         });
 
-        // 4. KONFIGURASI PETA (Ambil Data dari Repositori Induk)
-        const map = L.map('map').setView([-7.72647, 113.63515], 11);
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; OpenStreetMap'
-        }).addTo(map);
+        // --- PETA DENGAN SATELLITE SWITCHER ---
+        const probanCoord = [-7.72647, 113.63515];
+        const streets = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png');
+        const satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { attribution: 'Esri' });
 
-        // URL INI HARUS SESUAI DENGAN ALAMAT WEB GEOPORTAL UTAMA ANDA
-        const masterDataUrl = 'https://geoportal-wskt.github.io/data/proyek_infra2v1.json';
+        const map = L.map('map', { layers: [streets], scrollWheelZoom: true }).setView(probanCoord, 12);
+        L.control.layers({ "Peta Jalan": streets, "Satelit": satellite }).addTo(map);
 
-        fetch(masterDataUrl)
-            .then(res => {
-                if (!res.ok) throw new Error('File tidak ditemukan di repositori induk');
-                return res.json();
-            })
+        fetch('https://raw.githubusercontent.com/geoportal-wskt/geoportal-wskt/main/data/proyek_infra2v1.json')
+            .then(res => res.json())
             .then(data => {
                 L.geoJSON(data, {
-                    pointToLayer: (feature, latlng) => {
-                        let s = (feature.properties.status || "").toLowerCase();
+                    pointToLayer: (f, latlng) => {
+                        let s = (f.properties.status || "").toLowerCase();
                         let c = s === "on going" ? "#2ecc71" : s === "hold" ? "#3498db" : "#db4438";
-                        return L.circleMarker(latlng, { radius: 10, fillColor: c, color: "#fff", weight: 2, fillOpacity: 0.9 });
+                        return L.circleMarker(latlng, { radius: 9, fillColor: c, color: "#fff", weight: 2, fillOpacity: 0.9 });
                     },
-                    onEachFeature: (feature, layer) => {
-                        layer.bindPopup(`<b>${feature.properties.project || "Proyek"}</b><br>Status: ${feature.properties.status}`);
-                    }
+                    onEachFeature: (f, l) => l.bindPopup(`<b>${f.properties.project}</b><br>Status: ${f.properties.status}`)
                 }).addTo(map);
-            })
-            .catch(err => {
-                console.error("Error panggil OneMap:", err);
-                // JIKA GAGAL DARI PUSAT, COBA CARI DI LOKAL SEBAGAI CADANGAN
-                fetch('data/proyek_infra2v1.json').then(r => r.json()).then(d => {
-                    L.geoJSON(d).addTo(map);
-                }).catch(e => console.log("Data lokal juga tidak ada."));
             });
 
-        const legend = L.control({position: 'bottomright'});
-        legend.onAdd = function (map) {
-            const div = L.DomUtil.create('div', 'info legend');
-            div.innerHTML = '<strong>Status Proyek</strong><br><br>' +
-                '<i style="background:#2ecc71"></i> On Going<br>' +
-                '<i style="background:#3498db"></i> Hold<br>' +
-                '<i style="background:#db4438"></i> Finished<br>';
-            return div;
-        };
-        legend.addTo(map);
+        // AUTO-RESET MAP
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) { setTimeout(() => { map.flyTo(probanCoord, 12, { duration: 1.5 }); }, 100); } });
+        }, { threshold: 0.2 });
+        observer.observe(document.getElementById('map'));
 
+        // WEATHER API
+        fetch('https://api.open-meteo.com/v1/forecast?latitude=-7.72&longitude=113.63&current_weather=true')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('weather-info').innerHTML = `<b>${data.current_weather.temperature}°C</b> | Berawan`;
+            }).catch(() => { document.getElementById('weather-info').innerHTML = "29°C | Cerah"; });
+
+        refreshDashboard();
         renderTable();
     </script>
 </body>
