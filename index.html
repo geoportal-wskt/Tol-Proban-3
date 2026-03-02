@@ -169,19 +169,20 @@
             options: { responsive: true, scales: { y: { beginAtZero: true, max: 100 } } }
         });
 
-        // 4. KONFIGURASI PETA (Membaca file GeoJSON yang baru diupload)
-        const map = L.map('map').setView([-2.5, 118], 5);
+        // 4. KONFIGURASI PETA (Zoom-in otomatis ke lokasi Tol Probolinggo-Banyuwangi)
+        // Koordinat Probolinggo: -7.72647, 113.63515
+        const map = L.map('map').setView([-7.72647, 113.63515], 11);
+        
         L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
             attribution: '&copy; OpenStreetMap'
         }).addTo(map);
 
-        // Path file harus sama dengan nama yang diupload di GitHub folder 'data'
+        // Memuat data GeoJSON sitelocation
         fetch('data/infra2_sitelocation.json')
             .then(res => res.json())
             .then(data => {
                 L.geoJSON(data, {
                     pointToLayer: function (feature, latlng) {
-                        // Logika warna berdasarkan status di SHP
                         let status = (feature.properties.status || "").toLowerCase();
                         let warna = status === "on going" ? "#2ecc71" : status === "hold" ? "#3498db" : "#db4438";
                         return L.circleMarker(latlng, { radius: 10, fillColor: warna, color: "#fff", weight: 2, fillOpacity: 0.9 });
