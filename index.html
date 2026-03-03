@@ -11,36 +11,65 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <style>
-        :root { --waskita-blue: #003060; --waskita-gold: #f1c40f; --danger: #e74c3c; --success: #2ecc71; }
+        :root { --waskita-blue: #002147; --waskita-gold: #f1c40f; --danger: #e74c3c; --success: #2ecc71; }
         body, html { margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; scroll-behavior: smooth; color: #333; background-color: #f4f7f6; }
-        nav { position: fixed; top: 0; width: 100%; padding: 10px 0; display: flex; justify-content: space-around; background: rgba(0, 48, 96, 0.95); z-index: 2000; align-items: center; }
+        
+        /* Navigasi Pojok Kiri & Kanan */
+        nav { 
+            position: fixed; 
+            top: 0; 
+            width: 100%; 
+            padding: 10px 4%; /* Memberi jarak dari pinggir layar */
+            display: flex; 
+            justify-content: space-between; /* Memisahkan kiri dan kanan */
+            background: var(--waskita-blue); 
+            z-index: 2000; 
+            align-items: center; 
+            box-sizing: border-box;
+        }
         .nav-logo { height: 45px; width: auto; margin-right: 12px; }
         .brand-container { display: flex; align-items: center; }
-        nav a { color: white; text-decoration: none; font-weight: bold; margin: 0 10px; font-size: 13px; }
-        .hero { background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('Background.PNG'); height: 100vh; background-size: cover; background-position: center; background-attachment: fixed; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; text-align: center; padding: 0 20px; }
+        .nav-links { display: flex; gap: 20px; }
+        nav a { color: white; text-decoration: none; font-weight: bold; font-size: 13px; }
+
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('Background.PNG');
+            height: 100vh; background-size: cover; background-position: center; background-attachment: fixed;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; text-align: center; padding: 0 20px;
+        }
         .hero h1 { font-size: 2.8rem; margin-bottom: 10px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
+
         .section { padding: 80px 8% 40px; }
         .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); margin-bottom: 40px; }
         h2 { color: var(--waskita-blue); border-left: 5px solid var(--waskita-gold); padding-left: 15px; margin-bottom: 25px; }
+
         .periode-title { text-align: center; margin-bottom: 15px; font-weight: bold; color: var(--waskita-blue); text-transform: uppercase; letter-spacing: 1px; }
         .summary-container { display: flex; justify-content: space-between; gap: 15px; margin-bottom: 30px; }
-        .summary-box { background: white; padding: 20px; border-radius: 12px; flex: 1; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 4px solid var(--waskita-blue); }
+        .summary-box { 
+            background: white; padding: 20px; border-radius: 12px; flex: 1; text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 4px solid var(--waskita-blue);
+        }
         .summary-box h3 { margin: 0; font-size: 11px; color: #777; text-transform: uppercase; }
         .summary-box p { margin: 10px 0 0; font-size: 22px; font-weight: bold; color: var(--waskita-blue); }
         .dev-plus { color: var(--success) !important; }
         .dev-minus { color: var(--danger) !important; }
+
         .info-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
         .info-table td { padding: 12px; border-bottom: 1px solid #eee; font-size: 14px; }
         .info-table td:first-child { font-weight: bold; color: var(--waskita-blue); width: 35%; }
+
         table.data-table { width: 100%; border-collapse: collapse; margin-top: 20px; text-align: center; }
         .data-table th { background: var(--waskita-blue); color: white; padding: 12px; font-size: 13px; }
         .data-table td { border: 1px solid #ddd; padding: 10px; font-size: 13px; }
+        
         .pagination { margin-top: 20px; display: flex; justify-content: center; gap: 10px; }
         .page-btn { padding: 8px 20px; cursor: pointer; background: var(--waskita-blue); color: white; border: none; border-radius: 5px; }
         .page-btn:disabled { background: #ccc; cursor: not-allowed; }
+
         #map { height: 550px; width: 100%; border-radius: 12px; z-index: 1; border: 1px solid #ddd; }
         .info.legend { background: white; padding: 10px; border-radius: 5px; box-shadow: 0 0 15px rgba(0,0,0,0.2); font-size: 12px; line-height: 18px; color: #555; }
         .info.legend i { width: 12px; height: 12px; float: left; margin-right: 8px; border-radius: 50%; border: 1px solid #fff; }
+
         footer { background-color: #3b5998; color: white; text-align: center; padding: 20px 0; font-size: 14px; }
     </style>
 </head>
@@ -49,9 +78,12 @@
     <nav>
         <div class="brand-container">
             <img src="Waskita Logo.png" class="nav-logo" alt="Logo Waskita">
-            <div style="color:white; font-weight:900; letter-spacing:1px; line-height: 1.1;">WASKITA<br><span style="font-size: 10px; color: var(--waskita-gold);">INFRA II</span></div>
+            <div style="color:white; font-weight:900; letter-spacing:1px; line-height: 1.1;">
+                WASKITA KARYA<br>
+                <span style="font-size: 10px; color: white; opacity: 0.9;">INFRASTRUCTURE II</span>
+            </div>
         </div>
-        <div>
+        <div class="nav-links">
             <a href="#beranda">BERANDA</a>
             <a href="#tentang">TENTANG PROYEK</a>
             <a href="#progres">PROGRES & DATA</a>
@@ -219,18 +251,18 @@
                             grid: {
                                 color: (context) => {
                                     if ([25, 50, 75, 100].includes(context.tick.value)) {
-                                        return 'rgba(34, 139, 34, 0.7)'; // Hijau tua dengan transparansi
+                                        return 'rgba(34, 139, 34, 0.7)'; // Hijau Milestone
                                     }
                                     return 'rgba(0, 0, 0, 0.05)'; 
                                 },
                                 borderDash: (context) => {
                                     if ([25, 50, 75, 100].includes(context.tick.value)) {
-                                        return [5, 5]; // Putus-putus untuk milestone
+                                        return [5, 5]; 
                                     }
                                     return [];
                                 },
                                 lineWidth: (context) => {
-                                    return [25, 50, 75, 100].includes(context.tick.value) ? 1.5 : 1;
+                                    return [25, 50, 75, 100].includes(context.tick.value) ? 2 : 1;
                                 }
                             },
                             ticks: {
