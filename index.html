@@ -6,57 +6,41 @@
     <title>Dashboard Proyek Tol Probolinggo-Banyuwangi Paket 3</title>
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <style>
         :root { --waskita-blue: #003060; --waskita-gold: #f1c40f; --danger: #e74c3c; --success: #2ecc71; }
         body, html { margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; scroll-behavior: smooth; color: #333; background-color: #f4f7f6; }
-        
         nav { position: fixed; top: 0; width: 100%; padding: 10px 0; display: flex; justify-content: space-around; background: rgba(0, 48, 96, 0.95); z-index: 2000; align-items: center; }
         .nav-logo { height: 45px; width: auto; margin-right: 12px; }
         .brand-container { display: flex; align-items: center; }
         nav a { color: white; text-decoration: none; font-weight: bold; margin: 0 10px; font-size: 13px; }
-
-        .hero {
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('Background.PNG');
-            height: 100vh; background-size: cover; background-position: center; background-attachment: fixed;
-            display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; text-align: center; padding: 0 20px;
-        }
+        .hero { background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('Background.PNG'); height: 100vh; background-size: cover; background-position: center; background-attachment: fixed; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; text-align: center; padding: 0 20px; }
         .hero h1 { font-size: 2.8rem; margin-bottom: 10px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
-
         .section { padding: 80px 8% 40px; }
         .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); margin-bottom: 40px; }
         h2 { color: var(--waskita-blue); border-left: 5px solid var(--waskita-gold); padding-left: 15px; margin-bottom: 25px; }
-
-        /* --- STYLE MONITORING DINAMIS --- */
         .periode-title { text-align: center; margin-bottom: 15px; font-weight: bold; color: var(--waskita-blue); text-transform: uppercase; letter-spacing: 1px; }
         .summary-container { display: flex; justify-content: space-between; gap: 15px; margin-bottom: 30px; }
-        .summary-box { 
-            background: white; padding: 20px; border-radius: 12px; flex: 1; text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 4px solid var(--waskita-blue);
-        }
+        .summary-box { background: white; padding: 20px; border-radius: 12px; flex: 1; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 4px solid var(--waskita-blue); }
         .summary-box h3 { margin: 0; font-size: 11px; color: #777; text-transform: uppercase; }
         .summary-box p { margin: 10px 0 0; font-size: 22px; font-weight: bold; color: var(--waskita-blue); }
         .dev-plus { color: var(--success) !important; }
         .dev-minus { color: var(--danger) !important; }
-
         .info-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
         .info-table td { padding: 12px; border-bottom: 1px solid #eee; font-size: 14px; }
         .info-table td:first-child { font-weight: bold; color: var(--waskita-blue); width: 35%; }
-
         table.data-table { width: 100%; border-collapse: collapse; margin-top: 20px; text-align: center; }
         .data-table th { background: var(--waskita-blue); color: white; padding: 12px; font-size: 13px; }
         .data-table td { border: 1px solid #ddd; padding: 10px; font-size: 13px; }
-        
         .pagination { margin-top: 20px; display: flex; justify-content: center; gap: 10px; }
         .page-btn { padding: 8px 20px; cursor: pointer; background: var(--waskita-blue); color: white; border: none; border-radius: 5px; }
         .page-btn:disabled { background: #ccc; cursor: not-allowed; }
-
         #map { height: 550px; width: 100%; border-radius: 12px; z-index: 1; border: 1px solid #ddd; }
-        .info.legend { background: white; padding: 10px; border-radius: 5px; box-shadow: 0 0 15px rgba(0,0,0,0.2); font-size: 12px; line-height: 18px; }
+        .info.legend { background: white; padding: 10px; border-radius: 5px; box-shadow: 0 0 15px rgba(0,0,0,0.2); font-size: 12px; line-height: 18px; color: #555; }
         .info.legend i { width: 12px; height: 12px; float: left; margin-right: 8px; border-radius: 50%; border: 1px solid #fff; }
-
         footer { background-color: #3b5998; color: white; text-align: center; padding: 20px 0; font-size: 14px; }
     </style>
 </head>
@@ -83,22 +67,10 @@
     <div class="section" style="padding-bottom: 0;">
         <div class="periode-title" id="text-periode">Memuat Data...</div>
         <div class="summary-container">
-            <div class="summary-box">
-                <h3>Rencana (%)</h3>
-                <p id="box-rencana">0%</p>
-            </div>
-            <div class="summary-box">
-                <h3>Aktual (%)</h3>
-                <p id="box-aktual">0%</p>
-            </div>
-            <div class="summary-box">
-                <h3>Deviasi</h3>
-                <p id="box-deviasi">0%</p>
-            </div>
-            <div class="summary-box">
-                <h3>Cuaca Lokasi</h3>
-                <p id="weather-info" style="font-size: 16px; margin-top: 15px;">Memuat...</p>
-            </div>
+            <div class="summary-box"><h3>Rencana (%)</h3><p id="box-rencana">0%</p></div>
+            <div class="summary-box"><h3>Aktual (%)</h3><p id="box-aktual">0%</p></div>
+            <div class="summary-box"><h3>Deviasi</h3><p id="box-deviasi">0%</p></div>
+            <div class="summary-box"><h3>Cuaca Lokasi</h3><p id="weather-info" style="font-size: 16px; margin-top: 15px;">Memuat...</p></div>
         </div>
     </div>
 
@@ -107,7 +79,7 @@
             <h2>Informasi Umum Proyek</h2>
             <table class="info-table">
                 <tr><td>Nama Proyek</td><td>Pembangunan Jalan Tol Probolinggo-Banyuwangi Paket 3 (Seksi 3)</td></tr>
-                <tr><td>Lokasi</td><td>Bulupandan - Banyuwangi, Jawa Timur</td></tr>
+                <tr><td>Lokasi</td><td>Bulupandan - Banyuwangi, Java Timur</td></tr>
                 <tr><td>Pemberi Kerja</td><td>PT Jasamarga Probolinggo Banyuwangi</td></tr>
                 <tr><td>Kontraktor Utama</td><td>PT Waskita Karya (Persero) Tbk.</td></tr>
                 <tr><td>Panjang Jalan</td><td>± 9,89 km</td></tr>
@@ -123,123 +95,37 @@
             <h2>Grafik Progres Bulanan</h2>
             <canvas id="progresChart" height="100"></canvas>
         </div>
-
         <div class="card">
             <h2>Tabel Progres Proyek</h2>
-            <div style="overflow-x:auto;">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Periode</th>
-                            <th>Aktual (%)</th>
-                            <th>Rencana (%)</th>
-                            <th>Video Dokumentasi</th>
-                            <th>Link Orthophoto</th>
-                        </tr>
-                    </thead>
-                    <tbody id="table-body"></tbody>
-                </table>
-            </div>
-            <div class="pagination">
-                <button class="page-btn" id="prevBtn" onclick="changePage(-1)">Previous</button>
-                <button class="page-btn" id="nextBtn" onclick="changePage(1)">Next</button>
-            </div>
+            <div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>Periode</th><th>Aktual (%)</th><th>Rencana (%)</th><th>Video Dokumentasi</th><th>Link Orthophoto</th></tr></thead><tbody id="table-body"></tbody></table></div>
+            <div class="pagination"><button class="page-btn" id="prevBtn" onclick="changePage(-1)">Previous</button><button class="page-btn" id="nextBtn" onclick="changePage(1)">Next</button></div>
         </div>
     </div>
 
     <div class="section" id="lokasi">
-        <div class="card">
-            <h2>OneMap Sebaran Proyek </h2>
-            <div id="map"></div>
-        </div>
+        <div class="card"><h2>OneMap Sebaran Proyek </h2><div id="map"></div></div>
     </div>
 
     <footer>© 2026 Waskita Karya (Persero) Tbk. - Divisi Infrastruktur II.</footer>
 
     <script>
-        // DATA PROGRESS LENGKAP
-        const allData = [
-            { tgl: "31/01/24", akt: 9.106, ren: 24.039, vid: "https://youtu.be/DJJ1KAImsSY", ortho: "#" },
-            { tgl: "03/03/24", akt: 18.916, ren: 21.473, vid: "https://youtu.be/ZV0frRKuqsY", ortho: "#" },
-            { tgl: "29/03/24", akt: 23.176, ren: 25.295, vid: "https://youtu.be/O7fXKZYJDqw", ortho: "#" },
-            { tgl: "28/04/24", akt: 25.247, ren: 28.655, vid: "https://youtu.be/ebkYw0BD1Bk", ortho: "#" },
-            { tgl: "28/05/24", akt: 30.280, ren: 36.860, vid: "https://youtu.be/fn9lV-kZxxg", ortho: "#" },
-            { tgl: "31/07/24", akt: 39.531, ren: 61.696, vid: "https://youtu.be/65ZFLITWnV4", ortho: "#" },
-            { tgl: "25/08/24", akt: 45.755, ren: 48.689, vid: "https://youtu.be/vCu9T8g0pHY", ortho: "#" },
-            { tgl: "29/09/24", akt: 49.505, ren: 50.405, vid: "https://youtu.be/eIvb7VeTSk4", ortho: "#" },
-            { tgl: "27/10/24", akt: 51.617, ren: 53.392, vid: "https://youtu.be/4uwMfIjGzog", ortho: "#" },
-            { tgl: "30/11/24", akt: 54.453, ren: 58.146, vid: "https://youtu.be/u_iHKGSTN9o", ortho: "#" },
-            { tgl: "29/12/24", akt: 60.508, ren: 59.987, vid: "https://youtu.be/3aJzW2GZ3gg", ortho: "#" },
-            { tgl: "31/01/25", akt: 62.789, ren: 64.138, vid: "https://youtu.be/UjgrYPep6GQ", ortho: "#" },
-            { tgl: "28/02/25", akt: 65.437, ren: 68.443, vid: "https://youtu.be/iQzbvK9XGlg", ortho: "#" },
-            { tgl: "04/05/25", akt: 70.023, ren: 86.418, vid: "https://youtu.be/16FFvaTJ6Gk", ortho: "#" },
-            { tgl: "31/05/25", akt: 73.252, ren: 98.324, vid: "https://youtu.be/VUaEwmB2Y0Y", ortho: "#" },
-            { tgl: "29/06/25", akt: 75.349, ren: 76.875, vid: "https://youtu.be/NGjyKZUuddQ", ortho: "#" },
-            { tgl: "30/07/25", akt: 77.363, ren: 80.608, vid: "https://youtu.be/k_8xtlQsFlw", ortho: "#" },
-            { tgl: "31/08/25", akt: 79.588, ren: 84.178, vid: "https://youtu.be/Iv64ufqADqw", ortho: "#" },
-            { tgl: "28/09/25", akt: 82.751, ren: 88.244, vid: "https://youtu.be/CDN7ItbGyZ4", ortho: "#" },
-            { tgl: "31/10/25", akt: 86.245, ren: 94.047, vid: "https://youtu.be/FqbM4jzdmx8", ortho: "#" },
-            { tgl: "30/11/25", akt: 90.046, ren: 91.819, vid: "https://youtu.be/-Tc_ReH4OVQ", ortho: "#" },
-            { tgl: "28/12/25", akt: 92.281, ren: 94.242, vid: "https://youtu.be/RFdmWkQxzGw", ortho: "#" },
-            { tgl: "31/01/26", akt: 93.330, ren: 96.873, vid: "https://youtu.be/R2j5sKq2gl0", ortho: "#" },
-            { tgl: "28/02/26", akt: 95.880, ren: 98.400, vid: "https://youtu.be/RFdmWkQxzGw", ortho: "#" }
-        ];
+        const csvUrl = 'https://raw.githubusercontent.com/geoportal-wskt/geoportal-wskt/main/data/Form%20Update%20WebGIS%20Infrastructure%20II%20Division%201.csv'; 
 
-        // --- FUNGSI DINAMIS UPDATE ---
-        function refreshDashboard() {
-            const latest = allData[allData.length - 1]; //
-            const dev = (latest.akt - latest.ren).toFixed(3);
-            
-            document.getElementById('text-periode').innerText = "Update Progres Terakhir: " + latest.tgl;
-            document.getElementById('box-rencana').innerText = latest.ren + "%";
-            document.getElementById('box-aktual').innerText = latest.akt + "%";
-            
-            const devBox = document.getElementById('box-deviasi');
-            devBox.innerText = (dev > 0 ? "+" : "") + dev + "%";
-            devBox.className = dev >= 0 ? "dev-plus" : "dev-minus";
-        }
-
+        let allData = [];
+        let myChart = null;
         let currentPage = 1;
         const rowsPerPage = 12;
 
-        function renderTable() {
-            const tbody = document.getElementById('table-body');
-            tbody.innerHTML = "";
-            let start = (currentPage - 1) * rowsPerPage;
-            let end = start + rowsPerPage;
-            allData.slice(start, end).forEach(item => {
-                tbody.innerHTML += `<tr>
-                    <td>${item.tgl}</td><td>${item.akt}%</td><td>${item.ren}%</td>
-                    <td><a href="${item.vid}" target="_blank" style="color:var(--waskita-blue); font-weight:bold;">Video</a></td>
-                    <td><a href="${item.ortho}" target="_blank" style="color:var(--waskita-blue); font-weight:bold;">Ortho</a></td>
-                </tr>`;
-            });
-            document.getElementById('prevBtn').disabled = currentPage === 1;
-            document.getElementById('nextBtn').disabled = end >= allData.length;
-        }
-
-        function changePage(dir) { currentPage += dir; renderTable(); }
-
-        const ctx = document.getElementById('progresChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: allData.map(d => d.tgl),
-                datasets: [
-                    { label: 'Aktual (%)', data: allData.map(d => d.akt), borderColor: '#e74c3c', backgroundColor: 'rgba(231, 76, 60, 0.1)', fill: true, tension: 0.3 },
-                    { label: 'Rencana (%)', data: allData.map(d => d.ren), borderColor: '#3498db', borderDash: [5, 5], fill: false, tension: 0.3 }
-                ]
-            },
-            options: { responsive: true, scales: { y: { beginAtZero: false, max: 100 } } }
-        });
-
-        // --- PETA DENGAN SATELLITE SWITCHER ---
         const probanCoord = [-7.72647, 113.63515];
-        const streets = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png');
-        const satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { attribution: 'Esri' });
+        const streets = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { attribution: '&copy; CARTO' });
+        const satellite = L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', { attribution: 'Google' });
 
-        const map = L.map('map', { layers: [streets], scrollWheelZoom: true }).setView(probanCoord, 12);
-        L.control.layers({ "Peta Jalan": streets, "Satelit": satellite }).addTo(map);
+        const map = L.map('map', { 
+            layers: [satellite], 
+            scrollWheelZoom: true 
+        }).setView(probanCoord, 12);
+
+        L.control.layers({ "Satelit (Google)": satellite, "Peta Jalan": streets }).addTo(map);
 
         fetch('https://raw.githubusercontent.com/geoportal-wskt/geoportal-wskt/main/data/proyek_infra2v1.json')
             .then(res => res.json())
@@ -254,21 +140,119 @@
                 }).addTo(map);
             });
 
-        // AUTO-RESET MAP
+        const legend = L.control({position: 'bottomright'});
+        legend.onAdd = function (map) {
+            const div = L.DomUtil.create('div', 'info legend');
+            div.innerHTML = '<strong>Status Proyek</strong><br><br>' +
+                '<i style="background:#2ecc71"></i> On Going<br>' +
+                '<i style="background:#3498db"></i> Hold<br>' +
+                '<i style="background:#db4438"></i> Finished<br>';
+            return div;
+        };
+        legend.addTo(map);
+
+        Papa.parse(csvUrl, {
+            download: true,
+            header: true,
+            dynamicTyping: true,
+            skipEmptyLines: true,
+            complete: function(results) {
+                allData = results.data.filter(row => 
+                    row['Nama Proyek'] === 'Jalan Tol Probolinggo Bayuwangi Paket 3 (JOI member 25%)' &&
+                    row['Periode Progres'] !== null && row['Periode Progres'] !== ""
+                ).map(item => ({
+                    tgl: item['Periode Progres'], 
+                    akt: item['Presentase Aktual Progress'], 
+                    ren: item['Presentase Rencana Progress'], 
+                    vid: item['Link Dokumentasi Video Drone'], 
+                    ortho: item['Link Orthophoto'] 
+                }));
+                if (allData.length > 0) { initDashboard(); }
+            }
+        });
+
+        function initDashboard() { renderTable(); updateChart(); refreshDashboard(); }
+
+        function refreshDashboard() {
+            const latest = allData[allData.length - 1];
+            const dev = (latest.akt - latest.ren).toFixed(3);
+            document.getElementById('text-periode').innerText = "Update Progres Terakhir: " + latest.tgl;
+            document.getElementById('box-rencana').innerText = latest.ren + "%";
+            document.getElementById('box-aktual').innerText = latest.akt + "%";
+            const devBox = document.getElementById('box-deviasi');
+            devBox.innerText = (dev > 0 ? "+" : "") + dev + "%";
+            devBox.className = dev >= 0 ? "dev-plus" : "dev-minus";
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('table-body');
+            tbody.innerHTML = "";
+            let start = (currentPage - 1) * rowsPerPage;
+            let end = start + rowsPerPage;
+            allData.slice(start, end).forEach(item => {
+                tbody.innerHTML += `<tr><td>${item.tgl}</td><td>${item.akt}%</td><td>${item.ren}%</td><td><a href="${item.vid}" target="_blank" style="color:var(--waskita-blue); font-weight:bold;">Video</a></td><td><a href="${item.ortho}" target="_blank" style="color:var(--waskita-blue); font-weight:bold;">Ortho</a></td></tr>`;
+            });
+            document.getElementById('prevBtn').disabled = currentPage === 1;
+            document.getElementById('nextBtn').disabled = end >= allData.length;
+        }
+
+        function changePage(dir) { currentPage += dir; renderTable(); }
+
+        function updateChart() {
+            const ctx = document.getElementById('progresChart').getContext('2d');
+            if(myChart) myChart.destroy();
+            myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: allData.map(d => d.tgl),
+                    datasets: [
+                        { label: 'Aktual (%)', data: allData.map(d => d.akt), borderColor: '#e74c3c', backgroundColor: 'rgba(231, 76, 60, 0.1)', fill: true, tension: 0.3 },
+                        { label: 'Rencana (%)', data: allData.map(d => d.ren), borderColor: '#3498db', borderDash: [5, 5], fill: false, tension: 0.3 }
+                    ]
+                },
+                options: { 
+                    responsive: true, 
+                    scales: { 
+                        y: { 
+                            beginAtZero: true, 
+                            max: 100,
+                            grid: {
+                                color: (context) => {
+                                    if ([25, 50, 75, 100].includes(context.tick.value)) {
+                                        return 'rgba(34, 139, 34, 0.7)'; // Hijau tua dengan transparansi
+                                    }
+                                    return 'rgba(0, 0, 0, 0.05)'; 
+                                },
+                                borderDash: (context) => {
+                                    if ([25, 50, 75, 100].includes(context.tick.value)) {
+                                        return [5, 5]; // Putus-putus untuk milestone
+                                    }
+                                    return [];
+                                },
+                                lineWidth: (context) => {
+                                    return [25, 50, 75, 100].includes(context.tick.value) ? 1.5 : 1;
+                                }
+                            },
+                            ticks: {
+                                stepSize: 25,
+                                color: '#555',
+                                font: { weight: 'bold' }
+                            } 
+                        } 
+                    }
+                }
+            });
+        }
+
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => { if (entry.isIntersecting) { setTimeout(() => { map.flyTo(probanCoord, 12, { duration: 1.5 }); }, 100); } });
         }, { threshold: 0.2 });
         observer.observe(document.getElementById('map'));
 
-        // WEATHER API
         fetch('https://api.open-meteo.com/v1/forecast?latitude=-7.72&longitude=113.63&current_weather=true')
-            .then(res => res.json())
-            .then(data => {
+            .then(res => res.json()).then(data => {
                 document.getElementById('weather-info').innerHTML = `<b>${data.current_weather.temperature}°C</b> | Berawan`;
             }).catch(() => { document.getElementById('weather-info').innerHTML = "29°C | Cerah"; });
-
-        refreshDashboard();
-        renderTable();
     </script>
 </body>
 </html>
