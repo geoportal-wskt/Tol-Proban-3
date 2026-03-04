@@ -7,6 +7,7 @@
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
@@ -14,23 +15,18 @@
         :root { --waskita-blue: #002147; --waskita-gold: #f1c40f; --danger: #e74c3c; --success: #2ecc71; }
         body, html { margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; scroll-behavior: smooth; color: #333; background-color: #f4f7f6; }
         
-        /* Navigasi Pojok Kiri & Kanan */
+        /* Navigasi 4 Tab */
         nav { 
-            position: fixed; 
-            top: 0; 
-            width: 100%; 
-            padding: 10px 4%; /* Memberi jarak dari pinggir layar */
-            display: flex; 
-            justify-content: space-between; /* Memisahkan kiri dan kanan */
-            background: var(--waskita-blue); 
-            z-index: 2000; 
-            align-items: center; 
-            box-sizing: border-box;
+            position: fixed; top: 0; width: 100%; padding: 10px 4%; 
+            display: flex; justify-content: space-between; 
+            background: var(--waskita-blue); z-index: 2000; align-items: center; box-sizing: border-box;
         }
         .nav-logo { height: 45px; width: auto; margin-right: 12px; }
         .brand-container { display: flex; align-items: center; }
-        .nav-links { display: flex; gap: 20px; }
+        .nav-links { display: flex; gap: 20px; align-items: center; }
         nav a { color: white; text-decoration: none; font-weight: bold; font-size: 13px; }
+        
+        .btn-pdf { background: var(--waskita-gold); color: var(--waskita-blue); padding: 6px 15px; border-radius: 5px; border: none; font-weight: bold; cursor: pointer; font-size: 11px; }
 
         .hero {
             background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('Background.PNG');
@@ -43,20 +39,21 @@
         .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); margin-bottom: 40px; }
         h2 { color: var(--waskita-blue); border-left: 5px solid var(--waskita-gold); padding-left: 15px; margin-bottom: 25px; }
 
-        .periode-title { text-align: center; margin-bottom: 15px; font-weight: bold; color: var(--waskita-blue); text-transform: uppercase; letter-spacing: 1px; }
+        /* Tata Letak Split */
+        .flex-container { display: flex; gap: 20px; align-items: stretch; margin-bottom: 40px; }
+        .info-column { flex: 1.2; }
+        .map-column { flex: 1; min-height: 450px; border-radius: 12px; overflow: hidden; border: 1px solid #ddd; position: relative; }
+        #map-lokal { height: 100%; width: 100%; z-index: 1; }
+
         .summary-container { display: flex; justify-content: space-between; gap: 15px; margin-bottom: 30px; }
-        .summary-box { 
-            background: white; padding: 20px; border-radius: 12px; flex: 1; text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 4px solid var(--waskita-blue);
-        }
-        .summary-box h3 { margin: 0; font-size: 11px; color: #777; text-transform: uppercase; }
+        .summary-box { background: white; padding: 20px; border-radius: 12px; flex: 1; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 4px solid var(--waskita-blue); }
         .summary-box p { margin: 10px 0 0; font-size: 22px; font-weight: bold; color: var(--waskita-blue); }
         .dev-plus { color: var(--success) !important; }
         .dev-minus { color: var(--danger) !important; }
 
-        .info-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        .info-table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
         .info-table td { padding: 12px; border-bottom: 1px solid #eee; font-size: 14px; }
-        .info-table td:first-child { font-weight: bold; color: var(--waskita-blue); width: 35%; }
+        .info-table td:first-child { font-weight: bold; color: var(--waskita-blue); width: 40%; }
 
         table.data-table { width: 100%; border-collapse: collapse; margin-top: 20px; text-align: center; }
         .data-table th { background: var(--waskita-blue); color: white; padding: 12px; font-size: 13px; }
@@ -64,30 +61,31 @@
         
         .pagination { margin-top: 20px; display: flex; justify-content: center; gap: 10px; }
         .page-btn { padding: 8px 20px; cursor: pointer; background: var(--waskita-blue); color: white; border: none; border-radius: 5px; }
-        .page-btn:disabled { background: #ccc; cursor: not-allowed; }
 
-        #map { height: 550px; width: 100%; border-radius: 12px; z-index: 1; border: 1px solid #ddd; }
+        /* Iframe Live Map */
+        .iframe-container { width: 100%; height: 600px; border-radius: 12px; overflow: hidden; border: 1px solid #ddd; }
+        iframe { width: 100%; height: 100%; border: none; }
+
         .info.legend { background: white; padding: 10px; border-radius: 5px; box-shadow: 0 0 15px rgba(0,0,0,0.2); font-size: 12px; line-height: 18px; color: #555; }
         .info.legend i { width: 12px; height: 12px; float: left; margin-right: 8px; border-radius: 50%; border: 1px solid #fff; }
 
+        @media print { nav, .btn-pdf, .pagination, footer { display: none !important; } .section { padding: 10px; } }
         footer { background-color: #3b5998; color: white; text-align: center; padding: 20px 0; font-size: 14px; }
     </style>
 </head>
-<body>
+<body id="report-area">
 
     <nav>
         <div class="brand-container">
             <img src="Waskita Logo.png" class="nav-logo" alt="Logo Waskita">
-            <div style="color:white; font-weight:900; letter-spacing:1px; line-height: 1.1;">
-                WASKITA KARYA<br>
-                <span style="font-size: 10px; color: white; opacity: 0.9;">INFRASTRUCTURE II</span>
-            </div>
+            <div style="color:white; font-weight:900; letter-spacing:1px; line-height: 1.1;">WASKITA KARYA<br><span style="font-size: 10px; color: white; opacity: 0.9;">INFRASTRUCTURE II</span></div>
         </div>
         <div class="nav-links">
             <a href="#beranda">BERANDA</a>
             <a href="#tentang">TENTANG PROYEK</a>
             <a href="#progres">PROGRES & DATA</a>
             <a href="#lokasi">LOKASI PROYEK</a>
+            <button class="btn-pdf" onclick="cetakPDF()">CETAK PDF</button>
         </div>
     </nav>
 
@@ -104,64 +102,58 @@
             <div class="summary-box"><h3>Deviasi</h3><p id="box-deviasi">0%</p></div>
             <div class="summary-box"><h3>Cuaca Lokasi</h3><p id="weather-info" style="font-size: 16px; margin-top: 15px;">Memuat...</p></div>
         </div>
-    </div>
 
-    <div class="section" id="tentang">
-        <div class="card">
-            <h2>Informasi Umum Proyek</h2>
-            <table class="info-table">
-                <tr><td>Nama Proyek</td><td>Pembangunan Jalan Tol Probolinggo-Banyuwangi Paket 3 (Seksi 3)</td></tr>
-                <tr><td>Lokasi</td><td>Bulupandan - Banyuwangi, Java Timur</td></tr>
-                <tr><td>Pemberi Kerja</td><td>PT Jasamarga Probolinggo Banyuwangi</td></tr>
-                <tr><td>Kontraktor Utama</td><td>PT Waskita Karya (Persero) Tbk.</td></tr>
-                <tr><td>Panjang Jalan</td><td>± 9,89 km</td></tr>
-                <tr><td>Nilai Kontrak</td><td>Sesuai Kontrak Induk Divisi Infrastruktur II</td></tr>
-                <tr><td>Lingkup Pekerjaan</td><td>Tanah, Perkerasan, Struktur Jembatan, Overpass, Underpass</td></tr>
-                <tr><td>Metode Survei Utama</td><td>Photogrammetry (Drone) & Terrestrial Survey</td></tr>
-            </table>
+        <div class="flex-container" id="tentang">
+            <div class="card info-column">
+                <h2>Informasi Umum Proyek</h2>
+                <table class="info-table">
+                    <tr><td>Nama Proyek</td><td>Pembangunan Jalan Tol Probolinggo-Banyuwangi Paket 3 (Seksi 3)</td></tr>
+                    <tr><td>Lokasi</td><td>Bulupandan - Banyuwangi, Java Timur</td></tr>
+                    <tr><td>Pemberi Kerja</td><td>PT Jasamarga Probolinggo Banyuwangi</td></tr>
+                    <tr><td>Kontraktor Utama</td><td>PT Waskita Karya (Persero) Tbk.</td></tr>
+                    <tr><td>Panjang Jalan</td><td>± 9,89 km</td></tr>
+                    <tr><td>Nilai Kontrak</td><td>Sesuai Kontrak Induk Divisi Infrastruktur II</td></tr>
+                </table>
+            </div>
+            <div class="map-column">
+                <div id="map-lokal"></div>
+            </div>
         </div>
-    </div>
 
-    <div class="section" id="progres">
-        <div class="card">
+        <div class="card" id="progres">
             <h2>Grafik Progres Bulanan</h2>
             <canvas id="progresChart" height="100"></canvas>
         </div>
+
         <div class="card">
             <h2>Tabel Progres Proyek</h2>
-            <div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>Periode</th><th>Aktual (%)</th><th>Rencana (%)</th><th>Video Dokumentasi</th><th>Link Orthophoto</th></tr></thead><tbody id="table-body"></tbody></table></div>
+            <div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>Periode</th><th>Aktual (%)</th><th>Rencana (%)</th><th>Video</th><th>Ortho</th></tr></thead><tbody id="table-body"></tbody></table></div>
             <div class="pagination"><button class="page-btn" id="prevBtn" onclick="changePage(-1)">Previous</button><button class="page-btn" id="nextBtn" onclick="changePage(1)">Next</button></div>
         </div>
-    </div>
 
-    <div class="section" id="lokasi">
-        <div class="card"><h2>OneMap Sebaran Proyek </h2><div id="map"></div></div>
+        <div class="card" id="lokasi">
+            <h2>OneMap Sebaran Proyek (Live Map View)</h2>
+            <div class="iframe-container">
+                <iframe src="https://geoportal-wskt.github.io/onemap/" title="Live OneMap"></iframe>
+            </div>
+        </div>
     </div>
 
     <footer>© 2026 Waskita Karya (Persero) Tbk. - Divisi Infrastruktur II.</footer>
 
     <script>
         const csvUrl = 'https://raw.githubusercontent.com/geoportal-wskt/geoportal-wskt/main/data/Form%20Update%20WebGIS%20Infrastructure%20II%20Division%201.csv'; 
-
         let allData = [];
         let myChart = null;
         let currentPage = 1;
         const rowsPerPage = 12;
 
         const probanCoord = [-7.72647, 113.63515];
-        const streets = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { attribution: '&copy; CARTO' });
-        const satellite = L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', { attribution: 'Google' });
-
-        const map = L.map('map', { 
-            layers: [satellite], 
-            scrollWheelZoom: true 
-        }).setView(probanCoord, 12);
-
-        L.control.layers({ "Satelit (Google)": satellite, "Peta Jalan": streets }).addTo(map);
+        const satellite = L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}');
+        const map = L.map('map-lokal', { layers: [satellite], scrollWheelZoom: false }).setView(probanCoord, 12);
 
         fetch('https://raw.githubusercontent.com/geoportal-wskt/geoportal-wskt/main/data/proyek_infra2v1.json')
-            .then(res => res.json())
-            .then(data => {
+            .then(res => res.json()).then(data => {
                 L.geoJSON(data, {
                     pointToLayer: (f, latlng) => {
                         let s = (f.properties.status || "").toLowerCase();
@@ -173,42 +165,29 @@
             });
 
         const legend = L.control({position: 'bottomright'});
-        legend.onAdd = function (map) {
+        legend.onAdd = function () {
             const div = L.DomUtil.create('div', 'info legend');
-            div.innerHTML = '<strong>Status Proyek</strong><br><br>' +
-                '<i style="background:#2ecc71"></i> On Going<br>' +
-                '<i style="background:#3498db"></i> Hold<br>' +
-                '<i style="background:#db4438"></i> Finished<br>';
+            div.innerHTML = '<strong>Status Proyek</strong><br><br><i style="background:#2ecc71"></i> On Going<br><i style="background:#3498db"></i> Hold<br><i style="background:#db4438"></i> Finished<br>';
             return div;
         };
         legend.addTo(map);
 
         Papa.parse(csvUrl, {
-            download: true,
-            header: true,
-            dynamicTyping: true,
-            skipEmptyLines: true,
+            download: true, header: true, dynamicTyping: true, skipEmptyLines: true,
             complete: function(results) {
-                allData = results.data.filter(row => 
-                    row['Nama Proyek'] === 'Jalan Tol Probolinggo Bayuwangi Paket 3 (JOI member 25%)' &&
-                    row['Periode Progres'] !== null && row['Periode Progres'] !== ""
-                ).map(item => ({
-                    tgl: item['Periode Progres'], 
-                    akt: item['Presentase Aktual Progress'], 
-                    ren: item['Presentase Rencana Progress'], 
-                    vid: item['Link Dokumentasi Video Drone'], 
-                    ortho: item['Link Orthophoto'] 
+                allData = results.data.filter(row => row['Nama Proyek'] === 'Jalan Tol Probolinggo Bayuwangi Paket 3 (JOI member 25%)' && row['Periode Progres']).map(item => ({
+                    tgl: item['Periode Progres'], akt: item['Presentase Aktual Progress'], ren: item['Presentase Rencana Progress'], vid: item['Link Dokumentasi Video Drone'], ortho: item['Link Orthophoto']
                 }));
                 if (allData.length > 0) { initDashboard(); }
             }
         });
 
-        function initDashboard() { renderTable(); updateChart(); refreshDashboard(); }
+        function initDashboard() { renderTable(); updateChart(); refreshDashboard(); fetchWeather(); }
 
         function refreshDashboard() {
             const latest = allData[allData.length - 1];
             const dev = (latest.akt - latest.ren).toFixed(3);
-            document.getElementById('text-periode').innerText = "Update Progres Terakhir: " + latest.tgl;
+            document.getElementById('text-periode').innerText = "Update Progres: " + latest.tgl;
             document.getElementById('box-rencana').innerText = latest.ren + "%";
             document.getElementById('box-aktual').innerText = latest.akt + "%";
             const devBox = document.getElementById('box-deviasi');
@@ -220,12 +199,13 @@
             const tbody = document.getElementById('table-body');
             tbody.innerHTML = "";
             let start = (currentPage - 1) * rowsPerPage;
-            let end = start + rowsPerPage;
-            allData.slice(start, end).forEach(item => {
-                tbody.innerHTML += `<tr><td>${item.tgl}</td><td>${item.akt}%</td><td>${item.ren}%</td><td><a href="${item.vid}" target="_blank" style="color:var(--waskita-blue); font-weight:bold;">Video</a></td><td><a href="${item.ortho}" target="_blank" style="color:var(--waskita-blue); font-weight:bold;">Ortho</a></td></tr>`;
+            allData.slice(start, start + rowsPerPage).forEach(item => {
+                tbody.innerHTML += `<tr><td>${item.tgl}</td><td>${item.akt}%</td><td>${item.ren}%</td>
+                    <td><a href="${item.vid}" target="_blank" style="color:var(--waskita-blue); font-weight:bold;">Video</a></td>
+                    <td><a href="${item.ortho}" target="_blank" style="color:var(--waskita-blue); font-weight:bold;">Ortho</a></td></tr>`;
             });
             document.getElementById('prevBtn').disabled = currentPage === 1;
-            document.getElementById('nextBtn').disabled = end >= allData.length;
+            document.getElementById('nextBtn').disabled = (start + rowsPerPage) >= allData.length;
         }
 
         function changePage(dir) { currentPage += dir; renderTable(); }
@@ -243,48 +223,38 @@
                     ]
                 },
                 options: { 
-                    responsive: true, 
+                    responsive: true,
                     scales: { 
                         y: { 
-                            beginAtZero: true, 
-                            max: 100,
+                            beginAtZero: true, max: 100,
                             grid: {
-                                color: (context) => {
-                                    if ([25, 50, 75, 100].includes(context.tick.value)) {
-                                        return 'rgba(34, 139, 34, 0.7)'; // Hijau Milestone
-                                    }
-                                    return 'rgba(0, 0, 0, 0.05)'; 
-                                },
-                                borderDash: (context) => {
-                                    if ([25, 50, 75, 100].includes(context.tick.value)) {
-                                        return [5, 5]; 
-                                    }
-                                    return [];
-                                },
-                                lineWidth: (context) => {
-                                    return [25, 50, 75, 100].includes(context.tick.value) ? 2 : 1;
-                                }
+                                color: (c) => [25, 50, 75, 100].includes(c.tick.value) ? 'rgba(34, 139, 34, 0.7)' : 'rgba(0, 0, 0, 0.05)',
+                                borderDash: (c) => [25, 50, 75, 100].includes(c.tick.value) ? [5, 5] : [],
+                                lineWidth: (c) => [25, 50, 75, 100].includes(c.tick.value) ? 2 : 1
                             },
-                            ticks: {
-                                stepSize: 25,
-                                color: '#555',
-                                font: { weight: 'bold' }
-                            } 
+                            ticks: { stepSize: 25, color: '#555', font: { weight: 'bold' } }
                         } 
                     }
                 }
             });
         }
 
+        function fetchWeather() {
+            fetch('https://api.open-meteo.com/v1/forecast?latitude=-7.72&longitude=113.63&current_weather=true')
+                .then(res => res.json()).then(data => {
+                    document.getElementById('weather-info').innerHTML = `<b>${data.current_weather.temperature}°C</b> | Berawan`;
+                }).catch(() => { document.getElementById('weather-info').innerHTML = "29°C | Cerah"; });
+        }
+
+        function cetakPDF() {
+            const element = document.getElementById('report-area');
+            html2pdf().set({ margin: 5, filename: 'Laporan_Progres.pdf', html2canvas: { scale: 2, useCORS: true }, jsPDF: { format: 'a4', orientation: 'portrait' } }).from(element).save();
+        }
+
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => { if (entry.isIntersecting) { setTimeout(() => { map.flyTo(probanCoord, 12, { duration: 1.5 }); }, 100); } });
-        }, { threshold: 0.2 });
-        observer.observe(document.getElementById('map'));
-
-        fetch('https://api.open-meteo.com/v1/forecast?latitude=-7.72&longitude=113.63&current_weather=true')
-            .then(res => res.json()).then(data => {
-                document.getElementById('weather-info').innerHTML = `<b>${data.current_weather.temperature}°C</b> | Berawan`;
-            }).catch(() => { document.getElementById('weather-info').innerHTML = "29°C | Cerah"; });
+        }, { threshold: 0.1 });
+        observer.observe(document.getElementById('map-lokal'));
     </script>
 </body>
 </html>
