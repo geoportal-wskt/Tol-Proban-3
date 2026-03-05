@@ -61,6 +61,7 @@
         
         .pagination { margin-top: 20px; display: flex; justify-content: center; gap: 10px; }
         .page-btn { padding: 8px 20px; cursor: pointer; background: var(--waskita-blue); color: white; border: none; border-radius: 5px; }
+        .page-btn:disabled { background: #ccc !important; color: #888 !important; cursor: not-allowed; }
 
         /* Iframe Live Map */
         .iframe-container { width: 100%; height: 600px; border-radius: 12px; overflow: hidden; border: 1px solid #ddd; }
@@ -78,7 +79,7 @@
     <nav>
         <div class="brand-container">
             <img src="Waskita Logo.png" class="nav-logo" alt="Logo Waskita">
-            <div style="color:white; font-weight:900; letter-spacing:1px; line-height: 1.1;">WASKITA KARYA<br><span style="font-size: 10px; color: white; opacity: 0.9;">INFRASTRUCTURE II</span></div>
+            <div style="color:white; font-weight:900; letter-spacing:1px; line-height: 1.1;">WASKITA KARYA<br><span style="font-size: 10px; color: white; opacity: 0.9;">INFRA II</span></div>
         </div>
         <div class="nav-links">
             <a href="#beranda">BERANDA</a>
@@ -128,7 +129,10 @@
         <div class="card">
             <h2>Tabel Progres Proyek</h2>
             <div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>Periode</th><th>Aktual (%)</th><th>Rencana (%)</th><th>Video</th><th>Ortho</th></tr></thead><tbody id="table-body"></tbody></table></div>
-            <div class="pagination"><button class="page-btn" id="prevBtn" onclick="changePage(-1)">Previous</button><button class="page-btn" id="nextBtn" onclick="changePage(1)">Next</button></div>
+            <div class="pagination">
+                <button class="page-btn" id="prevBtn" onclick="changePage(-1)">Previous</button>
+                <button class="page-btn" id="nextBtn" onclick="changePage(1)">Next</button>
+        </div>
         </div>
 
         <div class="card" id="lokasi">
@@ -199,13 +203,14 @@
             const tbody = document.getElementById('table-body');
             tbody.innerHTML = "";
             let start = (currentPage - 1) * rowsPerPage;
+            let end = start + rowsPerPage;
             allData.slice(start, start + rowsPerPage).forEach(item => {
                 tbody.innerHTML += `<tr><td>${item.tgl}</td><td>${item.akt}%</td><td>${item.ren}%</td>
                     <td><a href="${item.vid}" target="_blank" style="color:var(--waskita-blue); font-weight:bold;">Video</a></td>
                     <td><a href="${item.ortho}" target="_blank" style="color:var(--waskita-blue); font-weight:bold;">Ortho</a></td></tr>`;
             });
             document.getElementById('prevBtn').disabled = currentPage === 1;
-            document.getElementById('nextBtn').disabled = (start + rowsPerPage) >= allData.length;
+            document.getElementById('nextBtn').disabled = end >= allData.length;
         }
 
         function changePage(dir) { currentPage += dir; renderTable(); }
